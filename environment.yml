@@ -8,4 +8,3 @@ dependencies:
   - numpy==1.26.4
   - pandas==2.2.1
   - python==3.12.2
-prefix: /Users/daniel/miniconda3/envs/project_env
