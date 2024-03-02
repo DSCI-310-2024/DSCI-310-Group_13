@@ -72,7 +72,7 @@ Unacceptable behaviors include, but are not limited to:
 
 ## Reporting Violations
 
-Violations of this Code of Conduct can be reported by contacting the project team at [Project Email](annaczarnocka08@gmail.com). All complaints will be reviewed and investigated promptly and fairly.
+Violations of this Code of Conduct can be reported by contacting the project team at (annaczarnocka08@gmail.com). All complaints will be reviewed and investigated promptly and fairly.
 
 ## Enforcement
 
