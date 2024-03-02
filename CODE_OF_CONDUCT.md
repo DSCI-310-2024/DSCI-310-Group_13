@@ -44,3 +44,39 @@ This Code of Conduct is copied from the [tidyverse Code of Conduct](https://gith
 
 [homepage]: http://contributor-covenant.org
 [version]: http://contributor-covenant.org/version/1/4/
+
+## Additional Code of Conduct
+Although the Code of Conduct above is fully comprehensive and widely used, we have also written our own version, for more personalised Code of Conduct for our project. 
+
+# Code of Conduct for Our Project
+
+## Purpose
+
+This Code of Conduct aims to establish a community culture that fosters respect, kindness, and cooperation. It outlines expectations for anyone who participates in our project space, as well as the consequences for unacceptable behavior.
+
+## Expected Behavior
+
+- Embrace diversity and be considerate of the varying backgrounds and perspectives of others.
+- Offer and gracefully accept constructive criticism, focusing on improvement and learning.
+- Contribute to an inclusive, supportive, and collaborative environment that encourages sharing and contribution.
+
+## Unacceptable Behavior
+
+Unacceptable behaviors include, but are not limited to:
+- Harassment in any form.
+- Deliberate intimidation, stalking, or following.
+- Insults or derogatory comments, and personal or political attacks.
+- Public or private hostility.
+- Publishing others' private information without explicit permission.
+
+## Reporting Violations
+
+Violations of this Code of Conduct can be reported by contacting the project team at [Project Email](annaczarnocka08@gmail.com). All complaints will be reviewed and investigated promptly and fairly.
+
+## Enforcement
+
+Actions may include temporary bans, permanent bans, and other measures deemed appropriate by the project maintainers, based on the severity of the breach.
+
+## Adoption
+
+This Code of Conduct is adapted with inspiration from various sources, such as [Project Include](https://projectinclude.org/writing_cocs), and our commitment to making participation in our project a harassment-free experience for everyone.
