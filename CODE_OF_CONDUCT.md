@@ -45,10 +45,11 @@ This Code of Conduct is copied from the [tidyverse Code of Conduct](https://gith
 [homepage]: http://contributor-covenant.org
 [version]: http://contributor-covenant.org/version/1/4/
 
-## Additional Code of Conduct
-Although the Code of Conduct above is fully comprehensive and widely used, we have also written our own version, for more personalised Code of Conduct for our project. 
 
 # Code of Conduct for Our Project
+
+## Additional Code of Conduct
+Although the Code of Conduct above is fully comprehensive and widely used, we have also written our own version, for more personalised Code of Conduct for our project. 
 
 ## Purpose
 
