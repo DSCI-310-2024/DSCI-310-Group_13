@@ -24,9 +24,12 @@ channels:
 dependencies:
   - altair==5.2.0
   - jupyterlab==4.1.2
+  - matplotlib==3.8.3
   - numpy==1.26.4
   - pandas==2.2.1
   - python==3.12.2
+  - scikit-learn==1.4.1.post1
+  - seaborn
 ```
 
 ## License
