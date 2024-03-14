@@ -30,9 +30,3 @@ results/laptop.dat : data/laptop.csv download_data.py
 
 clean-dats:
 clean-all: 
-
-
-
-
-
-
