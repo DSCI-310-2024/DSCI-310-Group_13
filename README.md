@@ -22,10 +22,13 @@ To successfully run our data analysis you should follow the following steps:
 ## List of Dependencies
 To replicate our analysis environment, ensure the to build the project container utilizing the following commands:
 
-docker build -t sampleapp:v1
+```console
+foo@bar:~$ docker build --tag sample_name .
+```
+and
 
 ```console
-foo@bar:~$ docker build -t Sample_name
+foo@bar:~$ docker run -it --rm sample_name
 ```
 
 ## License
