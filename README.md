@@ -14,7 +14,7 @@ In conclusion, our study provides valuable insights into the determinants of lap
 ## How to run our data analysis
 To successfully run our data analysis you should follow the following steps:
 1. **Environment Setup**: Ensure Python is installed on your system. For installation guidance, refer to Python's official website.
-3. **Repository Cloning**: Clone our GitHub repository to your local computer. Use the command: git clone [[Repository URL](https://github.com/DSCI-310-2024/Laptops--market-prices-detemrinants-prediction.git)]
+3. **Repository Cloning**: Clone our GitHub repository to your local computer. Use the command: git clone https://github.com/DSCI-310-2024/Group_13-Laptop-market-price-analysis
 4. **Editor Preparation**: Open the project in your preferred IDE, such as Visual Studio Code.
 
 6. **Running the Analysis**: Navigate to the project directory and execute the Jupyter Notebooks or Python scripts to perform our analysis pipeline.
