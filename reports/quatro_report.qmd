@@ -1,13 +1,24 @@
 ---
 title: "DSCI 310 Group Project: Laptop Price Predictor Model"
-authors: "Anna Czarnocka, An Zhou, Yuechang Liu, Daniel Lima"
-format: html
+author: "Anna Czarnocka, An Zhou, Yuechang Liu, Daniel Lima"
+format: 
+    html:
+        toc: true # table of contents
+        toc-depth: 2
+    pdf:
+        toc: true
+        toc-depth: 2
+        fig-pos: "H"
+bibliography: references.bib
+execute:
+    echo: false #don't reprint the code(only output)
+    warning: false # don't show warnings
 editor: source
 ---
 
 ```{python}
+#| echo: false
 import pandas as pd
 from IPython.display import Markdown, display
 from tabulate import tabulate
 ```
-
