@@ -61,10 +61,6 @@ RUN conda install matplotlib=3.8.3
 
 RUN conda install scikit-learn=1.4.1.post1
 
-
-
-
-
 ```
 
 ## License
