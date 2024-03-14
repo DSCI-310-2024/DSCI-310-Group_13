@@ -31,6 +31,8 @@ and
 foo@bar:~$ docker run -it --rm sample_name
 ```
 
+Note: Ensure that you change sample_name to a desired name and ensure that when you run the container you include -rm in order for container to be ephemeral.
+
 ## License
 This project is licensed under the MIT License.
 
