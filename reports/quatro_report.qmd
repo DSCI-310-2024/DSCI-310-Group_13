@@ -1,0 +1,43 @@
+---
+title: "DSCI 310 Group Project: Laptop Price Predictor Model"
+authors: "Anna Czarnocka, An Zhou, Yuechang Liu, Daniel Lima"
+format: html
+editor: source
+---
+
+```{python}
+import pandas as pd
+from IPython.display import Markdown, display
+from tabulate import tabulate
+```
+
+# for makefile
+
+# authors: "Anna Czarnocka, An Zhou, Yuechang Liu, Daniel Lima"
+# date: 2024-03-14
+
+all: visualisations/Graph1.png \
+	visualisations/Graph2.png \
+	DATA/laptops.csv \
+	reports/quatro_report.html \
+	reports/quatro_report.pdf
+
+
+# generate figures and objects for report
+visualisations/Graph1.png visualisations/Graph2.png DATA/laptops.csv: reports/report.ipynb
+	python reports/report.ipynb --input_dir="DATA/laptops.csv" \
+		--out_dir="results"
+
+# render quarto report in HTML and PDF
+reports/qmd_example.html: results reports/quatro_report.qmd
+	quarto render reports/quatro_report.qmd --to html
+
+reports/qmd_example.pdf: results reports/quatro_report.qmd
+	quarto render reports/quatro_report.qmd --to pdf
+
+# clean
+clean:
+	rm -rf results
+	rm -rf reports/quatro_report.html \
+		reports/quatro_report.pdf \
+		reports/quatro_report
