@@ -20,23 +20,12 @@ To successfully run our data analysis you should follow the following steps:
 6. **Running the Analysis**: Navigate to the project directory and execute the Jupyter Notebooks or Python scripts to perform our analysis pipeline.
 
 ## List of Dependencies
-To replicate our analysis environment, ensure the following dependencies are installed:
+To replicate our analysis environment, ensure the to build the project container utilizing the following commands:
 
-```yaml
-name: project_env
-channels:
-  - conda-forge
-  - defaults
-dependencies:
-  - altair
-  - imbalanced-learn
-  - matplotlib
-  - numpy
-  - pandas
-  - scikit-learn
-  - seaborn
-  - statsmodels
-  - python=3.12.2
+docker build -t sampleapp:v1
+
+```console
+foo@bar:~$ docker build -t Sample_name
 ```
 
 ## License
