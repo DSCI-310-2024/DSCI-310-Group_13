@@ -128,6 +128,9 @@ Additionally, the tapering off of frequency at higher price points may point to 
 #| label: tbl-laptop-prices
 #| tbl-cap: Descriptive statistics of laptop prices in USD.
 
+# Perform descriptive analysis on 'Price' column of the df DataFrame
+descriptive_stats = df['Price'].describe()
+
 # Convert the descriptive_stats Series to a DataFrame for better formatting
 descriptive_stats_df = pd.DataFrame(descriptive_stats)
 
