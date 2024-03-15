@@ -8,7 +8,7 @@
 # make all
 
 # run entire analysis
-all: 
+all: all: results/laptop.dat reports/quarto_report.html
 
 # data cleaning
 results/laptop.dat : data/laptop.csv data_cleaning.py
@@ -27,6 +27,11 @@ results/laptop.dat : data/laptop.csv download_data.py
 # make the plot
 
 # write the report
+
+# render quarto report in HTML
+reports/quarto_report.html: reports/quarto_report.qmd
+	quarto render reports/quarto_report.qmd --to html --output-dir reports
+
 
 clean-dats:
 clean-all: 
