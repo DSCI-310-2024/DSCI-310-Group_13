@@ -29,3 +29,163 @@ Our project aims to answer the question "How can we predict determinants of the 
 We performed a robust data analysis in Python, spanning from importing data to sharing insights, prioritizing the creation of workflows that are both replicable and reliable. 
 We used the Linear regression method to construct our predictive model. 
 Our results are that the price can be predicted by building a and training a model using variables such present in the data such as: Rating, num_cores, num_threads, ram_memory, primary_storage_capacity, secondary_storage_capacity, is_touch_screen, display_size, resolution_width and resolution_height. 
+
+
+# Introduction
+
+In this digitalized world today, laptops are one of the most demanding digital products. According to Grand View Research, the global laptop market was valued at $194.25 billion in 2022 and is expected to grow in the foreseeable future (Afzal, 2023). This market amount is created by laptops that vary in price on a significant range from less than two hundred to a few thousand dollars. However, the prices of laptops are surely not unpredictable. Here in this project, we answer the question: how can we predict the laptop market price by the appropriate determinants?
+
+This question is important because it helps customers to understand the factors behind the pricing of laptops which helps them to make reasonable decisions while choosing a laptop. Also, the result of this research benefits laptop producers and sellers in price-making strategies. This research lets laptop producers have a better picture of laptops with what types of features should be priced higher on the market. We try to approach this question by fitting a KNN regression model on the dataset “laptop 2024” (Kumar, 2024). The dataset that our research is based on is a public dataset on Kaggle uploaded by Aniket Kumar. It collects data from 991 unique laptops with 22 features. All information is updated to January 14, 2024.
+
+
+# Methods & Results
+
+## Analysis
+
+### Research Project Methodology: Predicting Laptop Prices through Feature Analysis
+
+#### Objective
+
+The aim of this project is to develop a predictive model that can estimate the price of laptops based on various product features. Accurate estimation of the price is crucial for all laptop users, both for the professionals and amators, that are planning to buy new laptops, as well as for the sellers and the laptop mrket industry, as it helps identify potential importance of each of the feature and determine appropriate buying strategies. This model aims to serve various stakeholders in the laptop market, including potential buyers seeking to make informed purchasing decisions, sellers aiming to strategize their pricing, and industry analysts interested in understanding the impact of different laptop features on their market value. The research specifically seeks to identify the determinants of laptop prices, providing insights into which attributes significantly influence cost in the competitive laptop market.
+
+The dataset provided for this project consists of a large number of observations from both a training sample and a test sample. Each observation includes information such as the laptop's brand, model, price, rating, processor details, number of cores and threads, ram memory, primary storage type, capcity and many others. 
+
+#### Dataset Overview
+
+The core of this research is based on a meticulously curated dataset titled ["Laptop Dataset (2024)"]((https://www.kaggle.com/datasets/aniket1505/laptop-dataset-2023?resource=download)) downloaded from Kaggle which encompasses a rich collection of 991 unique laptop entries extracted from the Smartprix website. This dataset has been carefully cleaned and updated as of January 14, 2024, ensuring its reliability for in-depth analysis. It features 22 distinct attributes for each laptop, including but not limited to:
+
+- **Brand and Model**: Identifying the manufacturer and specific model of the laptop.
+- **Price**: Listed in Indian Rupees, providing a direct measure of market value.
+- **Processor Specifications**: Including brand, tier, number of cores, and threads.
+- **Memory and Storage**: Details on RAM, primary and secondary storage types and capacities.
+- **GPU Details**: Information on the brand and type of graphics processing unit.
+- **Display Characteristics**: Screen size, resolution, and touch screen functionality.
+- **Operating System**: The installed OS.
+- **Warranty**: The duration of the manufacturer's warranty.
+
+#### Methodology
+
+To achieve the project's goal, the methodology will encompass several key stages:
+
+1. Initial steps of data preprocessing will include cleaning the data for inconsistencies, handling missing values, and encoding categorical variables to prepare the dataset for modeling.
+
+2. The stage of explanatory data analysis (EDA) involves examining the dataset to understand the distribution of key features, identify outliers, and uncover potential relationships between variables.
+
+3. Based on insights from EDA, new features may be engineered to better capture the influence of certain attributes on laptop prices. This could include interaction terms or derived features like performance-to-price ratios.
+
+4. A variety of machine learning models, including linear regression, decision trees, and ensemble methods like random forest and gradient boosting, will be evaluated to determine the most effective approach for price prediction. Model selection will be based on cross-validation performance metrics such as mean squared error (MSE).
+
+5. The selected model will be rigorously tested using a hold-out test sample to assess its generalization ability and accuracy in predicting laptop prices. 
+
+6. Once the model is finalized, an analysis of feature importance will be conducted to identify which laptop characteristics are most predictive of price. This will address the research question by highlighting the key determinants of laptop pricing.
+
+#### Expected Outcomes
+
+The culmination of this research project is anticipated to yield a robust model that can predict laptop prices with high accuracy, offering valuable insights into the factors that most significantly impact laptop market values. Through this analysis, stakeholders in the laptop industry will be better equipped to understand pricing dynamics, facilitating more informed decision-making processes for both consumers and sellers. Additionally, the project aims to contribute to the academic and practical understanding of price determination in technology markets, potentially guiding future research and development strategies within the laptop industry.
+
+
+# Explanatory data analysis
+
+The dataset, titled "Laptop Dataset (2024)," encompasses a meticulously curated collection of 991 unique laptop entries, sourced from the Smartprix website. It has been updated as of January 14, 2024, and provides a comprehensive overview of various laptop features, making it an invaluable resource for developing price prediction models and recommendation systems. This dataset includes a wide array of attributes for each laptop, offering insights into the intricate dynamics of laptop pricing and consumer preferences. The features captured in the dataset are as follows:
+
+- `Brand`: The name of the laptop brand.
+- `Model`: The specific model or series of the laptop.
+- `Price`: The price of the laptop in Indian rupees.
+- `Rating`: The rating assigned to each laptop based on its specifications.
+- `Processor_brand`: The brand of the processor used in the laptop.
+- `Processor_tier`: The performance tier or category of the processor.
+- `Number_of_Cores`: The number of processing cores in the processor.
+- `Number_of_Threads`: The number of threads supported by the processor.
+- `Ram_memory`: The amount of RAM used in the laptop.
+- `Primary_storage_type`: The type of primary storage (e.g., HDD, SSD).
+- `Primary_storage_capacity`: The capacity of the primary storage in the laptop.
+- `Secondary_storage_type`: The type of secondary storage, if available.
+- `Secondary_storage_capacity`: The capacity of the secondary storage in the laptop.
+- `GPU_brand`: The brand of the graphics processing unit (GPU).
+- `GPU_type`: The type of the GPU.
+- `Is_Touch_screen`: Indicates whether the laptop has a touch screen feature.
+- `Display_size`: The size of the laptop display in inches.
+- `Resolution_width`: The width resolution of the display.
+- `Resolution_height`: The height resolution of the display.
+- `OS`: The operating system installed on the laptop.
+- `Year_of_warranty`: The duration of the warranty provided for the laptop, usually in years.
+
+This dataset serves as a solid foundation for exploring laptop pricing dynamics and consumer preferences, equipped with a rich set of features for in-depth analysis. It consists of a total of 991 observations, each detailing a unique laptop configuration to assist in the development of accurate price prediction models and effective recommendation systems.
+
+
+![Distribution of laptop prices](visualisations/Graph1.png){#fig-graph1 width=90%}
+
+The key takeaway from analyzing the distribution of laptop prices from @fig-graph1 is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.
+
+The prevalence of lower-priced laptops could indicate a stronger market demand in this price segment, possibly reflecting the purchasing power of the consumer base or the competitive pricing strategies of manufacturers. For predictive modeling, this skewness towards lower prices could influence the model's accuracy, potentially leading it to be more reliable at predicting prices for lower-priced laptops than for higher-priced ones.
+
+Additionally, the tapering off of frequency at higher price points may point to a smaller niche market for premium laptops. For businesses and retailers, this distribution could inform inventory and marketing strategies, emphasizing the broad appeal of budget-friendly options. In the context of price prediction, care must be taken to ensure that the model does not undervalue the unique features and qualities that might justify the higher prices of less common, premium models.
+...
+
+
+```{python}
+#| echo: false
+#| label: tbl-laptop-prices
+#| tbl-cap: Descriptive statistics of laptop prices in USD.
+
+# Convert the descriptive_stats Series to a DataFrame for better formatting
+descriptive_stats_df = pd.DataFrame(descriptive_stats)
+
+# Convert the DataFrame to a Markdown table
+Markdown(descriptive_stats_df.to_markdown())
+```
+
+The output of the descriptive analysis on the `Price` column provides valuable insights into the distribution and characteristics of laptop prices in USD in the dataset:
+
+- **Count**: The count indicates the number of non-missing values in the `Price` column, which is 991. This suggests that the dataset is complete with no missing values for the price in USD.
+
+- **Mean**: The mean value of 926.45 USD represents the average price of laptops. This provides an estimate of the central tendency of the price distribution, indicating that, on average, laptops in the dataset are priced around this value.
+
+- **Standard Deviation**: The standard deviation of 688.62 USD quantifies the spread or dispersion of the laptop prices around the mean. A larger standard deviation suggests greater variability in the prices, indicating a wide range of prices within the dataset.
+
+- **Minimum and Maximum**: The minimum price value of 117 USD represents the least expensive laptop in the dataset, while the maximum price value of 5,453 USD represents the most expensive laptop. These values highlight the extent of the price range covered in the dataset.
+
+- **Quartiles**: The 25th percentile (Q1) of 523 USD and the 75th percentile (Q3) of 1,070.50 USD provide additional reference points for understanding the distribution of prices. Specifically, 25% of laptops are priced at or below 523 USD, and 75% are priced at or below 1,070.50 USD. The median (50th percentile) price of 742 USD indicates that half of the laptops are priced below this amount.
+
+This descriptive analysis helps us understand the pricing structure within the dataset, which can be instrumental for both consumers looking to purchase laptops within certain price ranges and sellers aiming to price their laptops competitively in the market.
+
+
+
+# 2. Investigate Data Types
+
+The key takeaway from the data types analysis of the `laptops.csv` dataset is the presence of a diverse range of data types, which suggests a mixture of numerical, categorical, and boolean data within the features. Specifically, columns such as `brand`, `Model`, `processor_brand`, `processor_tier`, `gpu_brand`, `gpu_type`, `OS`, and `year_of_warranty` are of object type, likely indicating categorical data. 
+
+Numerical columns like `Rating`, `num_cores`, `num_threads`, `ram_memory`, `primary_storage_capacity`, `secondary_storage_capacity`, `display_size`, `resolution_width`, `resolution_height`, and the target variable `Price` are either of type int64 or float64, representing quantitative data that can be used directly in mathematical computations and statistical analyses.
+
+The boolean column `is_touch_screen` indicates binary data, which can be easily encoded as 0s and 1s for modeling purposes. 
+
+
+# 3. Investigate possible invalid data
+
+```{python}
+#| echo: false
+#| label: tbl-laptop-specs
+#| tbl-cap: Descriptive statistics of laptop specifications and prices in USD.
+
+# Convert the DataFrame to a Markdown table
+Markdown(df_describe.to_markdown())
+```
+
+The descriptive analysis of the laptop dataset provides insightful information regarding the specifications and price points of laptops:
+
+- **Rating**: With a mean rating of 63.93 and a standard deviation of 10.19, the laptops in the dataset have a moderate average rating, with a typical range between 53.74 (mean - std) and 74.12 (mean + std). The ratings span from a low of 24 to a high of 89, indicating a wide range of customer satisfaction.
+
+- **Processor Cores and Threads**: The average number of processor cores is 8.13 with a standard deviation of 4.22, suggesting a mix of laptops from standard dual-core to high-performance multi-core systems. Similarly, the number of threads averages at 12.19, ranging widely as indicated by the standard deviation of 5.59, showing that laptops with various multitasking capabilities are represented.
+
+- **RAM Memory**: On average, laptops come with 13.05 GB of RAM, and the standard deviation of 5.59 GB indicates a broad selection from basic to high-end memory configurations.
+
+- **Storage Capacity**: The primary storage capacity averages 610.94 GB, with a large number of laptops having 512 GB, as seen in the 25th, 50th, and 75th percentiles. The secondary storage is not common, with an average close to zero and a maximum of 512 GB.
+
+- **Display Size**: Laptops have an average screen size of 15.17 inches, with a relatively small standard deviation of 0.94 inches, suggesting most laptops fall within the standard size range for consumer notebooks.
+
+- **Resolution**: The average resolution width is 2003.5 pixels with a notable standard deviation of 361.97 pixels, indicating a variety of display resolutions, with the most common being 1920 pixels wide. The average resolution height is 1181.23 pixels, with 1080 pixels being the typical height, suggesting that many laptops in the dataset likely have Full HD displays.
+
+- **Price**: The average price of a laptop is \$926.45 USD, with a wide range in prices as demonstrated by the standard deviation of \$688.62 USD. The prices range from as low as \$117 USD to as high as \$5453 USD, indicating a dataset that includes both budget-friendly options and premium models.
+
+This data suggests a diverse range of laptops catering to various needs and budgets, from basic models suitable for everyday tasks to high-end laptops with advanced features. For predictive modeling and market analysis, this variance in features and prices will need to be considered, as it affects both consumer choice and pricing strategies.
+
