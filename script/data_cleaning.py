@@ -1,6 +1,7 @@
 import click
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 @click.command()
 @click.argument('input_file')
@@ -35,7 +36,13 @@ def clean_and_save_data(input_file, output_file):
     df_final = df_cleaned[filter]
 
     # Save the cleaned data
-    df_final.to_csv(output_file, index=False)
+    df_train, df_test = train_test_split(df_final, test_size=0.3, random_state=42)
+
+    # Save the training and test sets to separate files
+    train_output_file = f"{output_file}_train.csv"
+    test_output_file = f"{output_file}_test.csv"
+    df_train.to_csv(train_output_file, index=False)
+    df_test.to_csv(test_output_file, index=False)
 
     click.echo(f"Data cleaned and saved to {output_file}")
 
