@@ -1,9 +1,11 @@
 import numpy as np
 import pandas as pd
+from pandas.plotting import table
 import matplotlib.pyplot as plt
 import seaborn as sns
 import altair as alt
 import os
+import click
 
 from imblearn.over_sampling import SMOTE
 
@@ -16,7 +18,11 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC, LinearSVC
 import statsmodels.api as sm
 
-def modeling(input_file, figure_prefix):
+@click.command()
+@click.argument('input_file')
+@click.argument('figure_prefix')
+
+def modelling(input_file, figure_prefix):
     # Ensure the Visualizations directory exists
     results_dir = 'results'  # Directly in the project root
     if not os.path.exists(results_dir):
@@ -24,31 +30,39 @@ def modeling(input_file, figure_prefix):
 
     # Read the data
     df = pd.read_csv(input_file)
-    
-    np.random.seed(987654321)
 
-    price = df["Price"]
-    num_samples = len(price)
-    train_ratio = 0.7
-    num_train_samples = int(train_ratio * num_samples)
-
-    # Randomly select indices for the training set
-    which_train = np.random.choice(range(num_samples), size=num_train_samples, replace=False)
-
-    # Split the data into training and testing sets based on the selected indices
-    train = df.iloc[which_train].copy()
-    test = df.drop(which_train).copy()
-
-    freq_ratio = train.apply(lambda x: x.value_counts().iloc[0] / x.value_counts().iloc[1] if len(x.value_counts()) > 1 else float('nan'))
+    freq_ratio = df.apply(lambda x: x.value_counts().iloc[0] / x.value_counts().iloc[1] if len(x.value_counts()) > 1 else float('nan'))
 
     # Prepare the formula for only numeric variables
     formula = 'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height' 
     # + C(brand) + C(Model) + C(processor_brand) + C(processor_tier) + C(primary_storage_type) + C(secondary_storage_type) + C(gpu_brand) + C(gpu_type) + C(OS) + C(year_of_warranty)'
 
     # Fit OLS model
-    model = sm.formula.ols(formula=formula, data=train)
+    model = sm.formula.ols(formula=formula, data=df)
     price_lm = model.fit()
 
+    # Capture the summary as a string
+    summary_str = price_lm.summary().as_text()
+
+    # Create a figure and axis to host the table
+    fig, ax = plt.subplots(figsize=(12, 2))  # Adjust the figure size as necessary
+    ax.axis('tight')
+    ax.axis('off')
+
+    # Create a table and populate it with the summary string
+    # Split the summary string into a list of lines and then into a list of cells
+    table_data = [[cell for cell in line.split('  ') if cell != ''] for line in summary_str.split('\n')]
+
+    # Convert the data into a DataFrame to work with pandas plotting
+    summary_df = pd.DataFrame(table_data)
+
+    # Plot the table
+    table(ax, summary_df, loc='center')
+
+    # Save the figure
+    output_path = os.path.join(results_dir, f'{figure_prefix}_summary_stats.png')
+    plt.savefig(output_path)
+    plt.close()
     # Visualize Coefficients
 
     coefficients = {
@@ -81,4 +95,4 @@ def modeling(input_file, figure_prefix):
     plt.close()
 
 if __name__ == '__main__':
-    modeling()
+    modelling()
