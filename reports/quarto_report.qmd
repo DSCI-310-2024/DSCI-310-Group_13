@@ -160,7 +160,7 @@ Numerical columns like `Rating`, `num_cores`, `num_threads`, `ram_memory`, `prim
 The boolean column `is_touch_screen` indicates binary data, which can be easily encoded as 0s and 1s for modeling purposes. 
 
 
-# 3. Investigate possible invalid data
+# 3. Investigate data
 
 ```{python}
 #| echo: false
@@ -189,3 +189,335 @@ The descriptive analysis of the laptop dataset provides insightful information r
 
 This data suggests a diverse range of laptops catering to various needs and budgets, from basic models suitable for everyday tasks to high-end laptops with advanced features. For predictive modeling and market analysis, this variance in features and prices will need to be considered, as it affects both consumer choice and pricing strategies.
 
+
+![Brand distribution](visualisations/Graph6.png){#fig-brand-distribution width=90%}
+![Barplot b/w Price and processor_brand](visualisations/Graph7.png){#fig-barplot-processor-brand width=90%}
+![Distribution of all numeric variables](visualisations/Graph2.png){#fig-distribution-numeric width=90%}
+![Distribution of all variables](visualisations/Graph3.png){#fig-distribution-all width=90%}
+
+# 5. Handle missing values
+
+Luckily, there are no missing values in our data!
+
+
+# 6. outliers
+
+![Outliers](visualisations/Graph4.png){#fig-outliers width=90%}
+
+
+# 7. Correlation analysis
+
+![Correlation matrix](visualisations/Graph4.png){#fig-correlation-matrix width=90%}
+
+Positive correlations (strongest at the bottom):
+
+- **secondary_storage_capacity**: The secondary storage capacity has a weak positive correlation with the price.
+
+- **display_size**: The display size has a moderate positive correlation with the price.
+
+- **resolution_height**: The resolution height has a strong positive correlation with the price.
+
+- **ram_memory**: The RAM memory has a strong positive correlation with the price.
+
+- **primary_storage_capacity**: The primary storage capacity has a strong positive correlation with the price.
+
+- **resolution_width**: The resolution width has a strong positive correlation with the price.
+
+- **Rating**: The rating has a strong positive correlation with the price.
+
+- **num_threads**: The number of threads has a strong positive correlation with the price.
+
+- **num_cores**: The number of cores has a strong positive correlation with the price.
+
+- **Price**: The price has a perfect positive correlation with itself.
+
+
+Negative correlations (weakest at the top):
+
+- **secondary_storage_capacity**: The secondary storage capacity has a weak negative correlation with the price.
+
+- **display_size**: The display size has a moderate negative correlation with the price.
+
+- **resolution_height**: The resolution height has a strong negative correlation with the price.
+
+- **ram_memory**: The RAM memory has a strong negative correlation with the price.
+
+- **primary_storage_capacity**: The primary storage capacity has a strong negative correlation with the price.
+
+- **resolution_width**: The resolution width has a strong negative correlation with the price.
+
+- **Rating**: The rating has a strong negative correlation with the price.
+
+- **num_threads**: The number of threads has a strong negative correlation with the price.
+
+- **num_cores**: The number of cores has a strong negative correlation with the price.
+
+- **Price**: The price has a perfect negative correlation with itself.
+
+
+
+# Linear regression model using ordinary least squares (OLS) estimation
+
+## 1. Split dataset
+
+To prepare the dataset for our regression analysis, a crucial step involves dividing the data into two distinct sets: one for training the model and another for testing its predictions. This procedure is essential for assessing how well our model will perform on unseen data, ensuring both robustness and reliability in our predictive capabilities.
+
+We employ a randomized approach to create these subsets, aiming for a 70:30 split between training and testing data. This means 70% of our data will be used to train the model, allowing it to learn and adapt to the patterns within our dataset. The remaining 30% serves as the test set, which will be used to evaluate the model's predictive accuracy and generalizability to new data.
+
+To ensure the reproducibility of our results and maintain consistency in model evaluation, we set a fixed seed for the random number generator. This approach guarantees that the selection of data for the training and testing sets is both random and unbiased, providing a solid foundation for our subsequent analysis.
+
+
+In our ongoing analysis, we turn our attention to understanding the distribution of categorical variables within our training dataset. A key step in this process involves calculating the frequency ratio for each feature. The frequency ratio is defined as the count of the most frequent value divided by the count of the second most frequent value for each variable. This metric provides insight into the balance or imbalance of categorical data, highlighting variables that may have a dominant category. Such insights are invaluable for feature selection and preprocessing steps, as they can influence the model's ability to learn from the data effectively.
+
+
+```{python echo=FALSE}
+import pandas as pd
+
+# Calculate the frequency ratio
+freq_ratio = train.apply(lambda x: x.value_counts().iloc[0] / x.value_counts().iloc[1] if len(x.value_counts()) > 1 else float('nan'))
+
+# Convert the series to a DataFrame and print it
+freq_ratio_df = pd.DataFrame(freq_ratio, columns=['Frequency Ratio'])
+print(freq_ratio_df)
+```
+
+The frequency ratio analysis reveals the distribution dynamics of our dataset's features. Here's a breakdown of what these ratios indicate:
+
+- **Brand, Model, Rating, num_cores, and Price:** These features show frequency ratios close to 1, indicating a relatively balanced distribution among the top two categories/values. This balance suggests that no single category/value overwhelmingly dominates these features.
+
+- **Processor_brand and processor_tier:** With ratios of 2.80 and 2.38 respectively, there's a noticeable preference or dominance of one category over another, though not extremely pronounced. It hints at some variation in the data that could be useful for our model.
+
+- **Primary_storage_type, secondary_storage_type, OS, and year_of_warranty:** Extremely high ratios (e.g., 37.50 for primary_storage_type and 76.00 for secondary_storage_type) highlight a significant dominance of one category over all others. Such dominance may indicate that these features have a strong, possibly skewed, influence on the dataset.
+
+- **Secondary_storage_capacity:** The highest ratio of 85.50 suggests an overwhelming dominance of one category/value, which might limit the feature's predictive power due to the lack of variability.
+
+- **Is_touch_screen:** A ratio of 10.95 indicates a predominant category, likely reflecting the technological trends or preferences within the dataset.
+
+- **Display_size, resolution_width, and resolution_height:** Moderate ratios suggest some variability, which could be informative for the model, indicating that these features have multiple common values but with a clear preference for one.
+
+Interpreting these ratios helps us understand the variability and balance within our dataset, guiding us in feature selection and preprocessing. Features with extremely high ratios may require careful consideration, as their predictive power might be compromised by the lack of diversity in their values.
+
+
+```{python echo=FALSE}
+import numpy as np
+
+# Calculate variances only for numeric columns
+numeric_columns = train.select_dtypes(include=[np.number])
+variances = numeric_columns.var()
+
+# Convert the series to a DataFrame and print it
+variances_df = pd.DataFrame(variances, columns=['Variance'])
+print(variances_df)
+```
+
+The variance calculation for our dataset's numeric features provides valuable insights into the spread and distribution of data across different variables. Here's an analysis of the variances:
+
+- **Rating, num_cores, and num_threads:** These features have relatively low to moderate variances (e.g., 105.99 for Rating, 18.18 for num_cores, and 32.00 for num_threads), indicating that the data points tend to cluster around their mean values, but with some degree of spread. These might influence the model depending on how closely these variations correlate with the target variable.
+
+- **Ram_memory and secondary_storage_capacity:** With variances of 30.53 and 771.44 respectively, these features exhibit a moderate level of variability, suggesting a wider distribution of values. Such features can be indicative of different usage patterns or capacities that could impact the model's predictions.
+
+- **Primary_storage_capacity:** A variance of 70819.31 points to a significant spread in the data, implying diverse storage capacities among the laptops. This variability could be a key factor in predicting the price or other dependent variables.
+
+- **Display_size:** A low variance of 0.91 suggests that the sizes of laptop displays in the dataset are relatively uniform, with slight variations. This limited variability may mean the feature has less predictive value for models focused on aspects heavily influenced by display size.
+
+- **Resolution_width and resolution_height:** Extremely high variances of 124099.25 and 66816.80, respectively, indicate a substantial spread in the resolutions of laptop screens. These variances suggest that laptops vary widely in their display capabilities, which could significantly impact user experience and, consequently, the price or other dependent variables.
+
+- **Price:** The highest variance of 465185.61 in the dataset underscores the wide range in laptop prices. This considerable variability is expected given the diverse features and specifications that can affect a laptop's cost. It highlights the challenge in predicting price but also indicates that there's ample information in the dataset to model this variability.
+
+
+
+## 2. Creating an OLS Regression Model
+
+In our regression analysis, a critical preparatory step involves handling the mix of numeric and categorical variables within our dataset. Regression models require numerical input; hence, categorical variables must be encoded into a numerical format. This encoding process typically involves transforming categorical variables into dummy variables (also known as one-hot encoding), where each category is represented as a new column with binary values (0 or 1).
+
+Our dataset comprises a variety of data types, including object (categorical), boolean, and numeric types. To facilitate regression analysis, it's essential to convert non-numeric types into a suitable numerical format. The `statsmodels` library simplifies this process for categorical variables by allowing us to wrap these variables with `C()` in our model's formula. This method automatically generates dummy variables for us, effectively incorporating categorical data into the analysis. While `statsmodels` is capable of processing boolean variables directly, converting them to integers (0 for False and 1 for True) may enhance consistency in data handling.
+
+Accordingly, we construct a regression formula that accurately represents our dataset's structure, ensuring that categorical variables are appropriately treated. By wrapping variables such as 'brand', 'processor_brand', and others with `C()`, we seamlessly integrate categorical information into our regression model.
+
+This approach not only maintains the integrity of our analysis but also leverages the rich information embedded within those categorical variables. Including non-numeric variables in our model, once properly encoded, enriches the model's capacity to interpret and utilize the dataset's full spectrum of information effectively.
+
+
+## OLS with only numeric variables
+
+```{python echo=FALSE}
+import statsmodels.api as sm
+
+# Prepare the formula for only numeric variables
+formula = 'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height' 
+
+# Fit OLS model
+model = sm.formula.ols(formula=formula, data=train)
+price_lm = model.fit()
+
+# Print summary
+print(price_lm.summary())
+```
+
+
+## Results discussion
+
+The OLS regression results provide significant insights into how various numeric features influence the Price of laptops in our dataset. The model, with an $R^2$ of 0.746, explains approximately 74.6% of the variability in laptop prices, which indicates a strong fit for our model with the selected numeric variables.
+
+### Key Findings
+
+- **Rating**: With a coefficient of 13.6645 and p-value < 0.001, Rating significantly affects the price. For each one-point increase in Rating, the Price increases by approximately 13.66 units, holding other variables constant.
+
+- **Number of Cores (`num_cores`)**: This variable shows a positive relationship with Price (coefficient = 76.4062, p-value < 0.001), suggesting that laptops with more cores are generally more expensive. Each additional core is associated with a 76.41 unit increase in Price.
+
+- **Number of Threads (`num_threads`)**: Interestingly, num_threads has a negative impact on Price (coefficient = -30.0025, p-value < 0.001). This might indicate that beyond a certain point, additional threads do not add value, or it could reflect a market preference for fewer, more efficient cores.
+
+- **RAM Memory**: As expected, RAM memory has a positive effect on Price (coefficient = 13.4003, p-value < 0.001), highlighting consumers' willingness to pay more for laptops with higher RAM capacity.
+
+- **Primary Storage Capacity**: This feature also positively influences Price (coefficient = 0.5079, p-value < 0.001), indicating the market's preference for laptops with larger storage capacities.
+
+- **Secondary Storage Capacity**: Surprisingly, this variable does not significantly affect Price (p-value = 0.190), suggesting that secondary storage might not be a crucial factor for consumers when choosing a laptop.
+
+- **Display Size**: Display size shows a borderline significance (p-value = 0.059), suggesting that larger screens may contribute to higher prices, but this effect is not as robust as other factors.
+
+- **Resolution Width and Height**: Both resolution_width (coefficient = 0.3118) and resolution_height (coefficient = 0.5292) are significant predictors of Price, with p-values < 0.001. This result underscores the importance of screen resolution quality in determining laptop prices.
+
+**Non-significant Variables**
+
+- **Touch Screen (`is_touch_screen`)**: Interestingly, the touch screen feature is not a significant predictor of laptop Price (p-value = 0.906), suggesting that consumers may not necessarily prefer touch screens, or its impact on Price is overshadowed by other features.
+
+### Conclusion
+
+Our analysis reveals that technical specifications like Rating, core count, RAM memory, storage capacity, and display resolution play significant roles in determining laptop prices. However, features like secondary storage capacity and touch screen functionality do not significantly influence Price within the scope of our model. This information can be invaluable for manufacturers and retailers in pricing strategies and for consumers making informed purchasing decisions.
+
+
+## Creating an OLS model with all variables
+
+### Step 1: Convert Boolean to Numeric
+Convert the boolean variable is_touch_screen to an integer format.
+
+### Step 2: Apply One-Hot Encoding to Categorical Variables
+
+### Step 3: Prepare Features and Target for Model Fitting
+
+### Step 4: Fitting the Model
+
+
+## Model choice
+
+### Model 1 with only numerical variables
+
+```{python echo=FALSE}
+import statsmodels.api as sm
+
+# Prepare the formula for only numeric variables
+formula = 'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height' 
+
+# Fit OLS model
+model = sm.formula.ols(formula=formula, data=train)
+price_lm = model.fit()
+
+# Print summary
+print(price_lm.summary())
+```
+
+
+### Model 2 with all variables
+
+```{python echo=FALSE}
+import statsmodels.api as sm
+
+# Prepare the formula for all variables
+formula_all = 'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height + brand + Model + processor_brand + processor_tier + primary_storage_type + secondary_storage_type + gpu_brand + gpu_type + OS + year_of_warranty'
+
+# Fit OLS model
+model_all = sm.formula.ols(formula=formula_all, data=train)
+price_lm_all = model_all.fit()
+
+# Print summary
+# print(price_lm_all.summary())
+# Due to a very long list of coefficients, the summary is not printed here, but we pasted the first few rows of it for the report convience.
+```
+
+### Choice decision
+
+Based on the provided summaries, Model 2 is seemingly overfitting the data. It achieves a perfect R-squared value of 1.000, which indicates that the model perfectly predicts the dependent variable based on the independent variables. However, such a high R-squared value often suggests overfitting, where the model learns the noise in the training data rather than the underlying pattern.
+
+Additionally, the lack of significance testing (indicated by "nan" values in the F-statistic, p-values, and confidence intervals) suggests numerical issues in the model fitting process, possibly due to the high number of features relative to the number of observations.
+
+On the other hand, Model 1 achieves a relatively lower but still acceptable R-squared value of 0.746, indicating a reasonable level of explanatory power. The F-statistic and associated p-value also suggest the overall significance of the model. However, some coefficients have high p-values, indicating that they may not be statistically significant predictors.
+
+Therefore, despite its lower R-squared value, Model 1 is preferred over Model 2 due to its more reasonable performance metrics and avoidance of overfitting. It's crucial to strike a balance between model complexity and performance to ensure generalizability to unseen data.
+
+
+# Results discussion
+
+## Results Description and Analysis
+
+### Research Question
+The research question addressed by the regression analysis is, **"Prediction of what determines the laptop prices"**
+
+### Model Specification
+We employed Ordinary Least Squares (OLS) regression to investigate the relationship between various laptop features and their prices. The model was specified using the following formula:
+
+```python
+formula = 'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height'
+```
+
+
+
+## Model Performance
+
+The OLS regression results indicate that the model explains approximately 74.6% of the variance in laptop prices, as indicated by the R-squared value of 0.746. This suggests that the selected independent variables collectively have a moderate level of explanatory power in predicting laptop prices.
+
+![Coefficients of Independent Variables](visualisations/Graph8.png){#fig-coefficients width=90%}
+
+
+## Coefficients Interpretation
+
+- **Intercept**: The intercept term represents the expected value of the dependent variable (`Price`) when all independent variables are held constant at zero. In this case, it is -2406.9394, indicating the base price of laptops when all other features are absent or zero.
+
+- **is_touch_screen**: The coefficient for the binary variable `is_touch_screen` is 6.2640. However, its p-value of 0.906 suggests that this variable is not statistically significant in predicting laptop prices at the conventional significance level of 0.05.
+
+- **Rating**: The coefficient for the `Rating` variable is 13.6645, indicating that a one-unit increase in the laptop's rating is associated with an increase in price by $13.6645.
+
+- **num_cores**: The coefficient for the `num_cores` variable is 76.4062, indicating that a one-unit increase in the number of cores is associated with an increase in price by $76.4062.
+
+- **num_threads**: The coefficient for the `num_threads` variable is -30.0025, indicating that a one-unit increase in the number of threads is associated with a decrease in price by $30.0025.
+
+- **ram_memory**: The coefficient for the `ram_memory` variable is 13.4003, indicating that a one-unit increase in RAM memory is associated with an increase in price by $13.4003.
+
+- **primary_storage_capacity**: The coefficient for the `primary_storage_capacity` variable is 0.5079, indicating that a one-unit increase in primary storage capacity is associated with an increase in price by $0.5079.
+
+- **secondary_storage_capacity**: The coefficient for the `secondary_storage_capacity` variable is -0.6392, but its p-value of 0.190 suggests that this variable is not statistically significant in predicting laptop prices at the conventional significance level of 0.05.
+
+- **display_size**: The coefficient for the `display_size` variable is 31.1784, but its p-value of 0.059 suggests that this variable is marginally significant in predicting laptop prices.
+
+- **resolution_width**: The coefficient for the `resolution_width` variable is 0.3118, indicating that a one-unit increase in the display resolution width is associated with an increase in price by $0.3118.
+
+- **resolution_height**: The coefficient for the `resolution_height`
+
+## Model Fit Statistics
+
+- **F-statistic**: The F-statistic tests the overall significance of the regression model. With a value of 200.6 and a p-value of approximately 1.39e-195, the F-statistic suggests that the model is statistically significant, indicating that at least one of the independent variables significantly predicts laptop prices.
+
+- **Adjusted R-squared**: The adjusted R-squared value of 0.743 accounts for the number of predictors in the model and provides a more accurate estimate of the proportion of variance explained by the independent variables.
+
+## Conclusion
+
+The regression analysis reveals that several laptop features, including rating, number of cores, number of threads, RAM memory, primary storage capacity, and display resolution, significantly influence laptop prices. However, the presence of multicollinearity or omitted variable bias cannot be ruled out, and further diagnostics may be required to assess model assumptions and validity thoroughly.
+
+
+# Impacts
+
+Given the findings of this research, the impact exists in many aspects. Firstly, by the model provided by this research, the price of a laptop can be predicted by some basic information about it. This can be helpful to customers as they can understand better how much the laptop they intended to buy is actually worth. They can see which features contribute to the price the most on each laptop so customers know what they are paying for. A wiser decision can be made if customers could have access to that information. Beyond that, laptop companies as well can use this information while they are setting prices for their laptop products to maximize the market. A successful price-setting “will entice customers to buy, but that isn't so low that you're not making a profit” (Gillen, 2023). The model we provide shows the prediction of the common price of the product based on the features which is critical in the price-making process. In addition, Insights from our predictive model can guide product design by highlighting which features contribute most significantly to perceived value and price. It could help laptop companies make design decisions in the future to design more profitable products. The result also could help in identifying the trend in the current laptop market. Such as which feature is more popular this year. And this is probably the feature which customers would pay more money on. To conclude, the model we build is practically useful from both ends of customers and companies.
+
+
+# Further studies
+
+Our study showed some promising results that can help both consumers and producers of the laptop market but there is still room for improvement.  Four major studies can be conducted based on our results.  Firstly, we could try to answer the question: "How has the importance of specific features in determining laptop prices changed over time? " This analysis could reveal shifting technology trends and consumer preferences, providing foresight into future market developments. According to Segan, “Computer and printer prices plummeted throughout the '80s and '90s, and PC storage continues to be cheaper and faster every year” (Segan, 2022). This means the price of laptops may vary every year and its relation to the feature may change.  Secondly, we could look into region market differences which explore feature importance differences in regions.  Exploring this could uncover opportunities for localized marketing strategies or product customization to meet regional demands.  Thirdly, we could focus on the impact of brand reputation by trying to answer the question: "How does a brand's reputation or perceived quality affect laptop prices? " Further research could quantify the brand effect and its interaction with product features in price setting.  Last but not least we could implement different models as we only tried the KNN model here.  We could try more advanced predictive models in machine learning algorithms in the future to increase our accuracy and overall performance.
+
+
+## References
+
+Afzal, M. (2023, December 9). 15 best selling laptops in 2023. Yahoo! Finance. https://finance.yahoo.com/news/15-best-selling-laptops-2023-182017276.html?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAADuqlSTbXMvnb1xhpvBsZ7W54qxGIf1JJ4TNTahMyewE-L9ZpqDiXgQVu1KGLwbA05RzhoL7kfU6WfRpfZUs3z2OYltBznbqwsn6jgoy6LUGJa9Z6TaugOmFPwr9ml_UlcH3tKS7xiJ1O_kLvAqFV7rcsdwOHQy0xv_jg4QACxHQ
+
+Kumar, A. (2024, February 10). Laptop dataset (2024). Kaggle. https://www.kaggle.com/datasets/aniket1505/laptop-dataset-2023 
+
+Gillen, C. (2023, July 12). 15 pricing strategies + how to set yours. Zapier. https://zapier.com/blog/pricing-strategy 
+
+Segan, S. (2022, June 15). 1982 vs. 2022: Has technology really become more affordable?. PCMAG. https://www.pcmag.com/news/1982-vs-2022-has-technology-really-become-more-affordable 
