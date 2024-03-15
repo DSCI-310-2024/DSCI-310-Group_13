@@ -6,6 +6,7 @@ import seaborn as sns
 import altair as alt
 import os
 import click
+from PIL import Image
 
 from imblearn.over_sampling import SMOTE
 
@@ -40,29 +41,26 @@ def modelling(input_file, figure_prefix):
     # Fit OLS model
     model = sm.formula.ols(formula=formula, data=df)
     price_lm = model.fit()
+    model_summary = price_lm.summary()
+    def save_summary_as_image(summary, filename):
+        """
+        Saves the statsmodels summary as a .png image.
 
-    # Capture the summary as a string
-    summary_str = price_lm.summary().as_text()
+        Parameters:
+        - summary: The summary object from statsmodels OLS regression.
+        - filename: The filename for the output image.
+        """
+        plt.rc('figure', figsize=(12, 7))
+        plt.text(0.01, 0.05, str(summary), {'fontsize': 10}, fontproperties='monospace')  # Approach improved by user feedback
+        plt.axis('off')
+        plt.tight_layout()
+        plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0.5)
+        plt.close()
 
-    # Create a figure and axis to host the table
-    fig, ax = plt.subplots(figsize=(12, 2))  # Adjust the figure size as necessary
-    ax.axis('tight')
-    ax.axis('off')
-
-    # Create a table and populate it with the summary string
-    # Split the summary string into a list of lines and then into a list of cells
-    table_data = [[cell for cell in line.split('  ') if cell != ''] for line in summary_str.split('\n')]
-
-    # Convert the data into a DataFrame to work with pandas plotting
-    summary_df = pd.DataFrame(table_data)
-
-    # Plot the table
-    table(ax, summary_df, loc='center')
+    output_path = os.path.join(results_dir, f'{figure_prefix}_summary_stats.png')
+    save_summary_as_image(model_summary, output_path)
 
     # Save the figure
-    output_path = os.path.join(results_dir, f'{figure_prefix}_summary_stats.png')
-    plt.savefig(output_path)
-    plt.close()
     # Visualize Coefficients
 
     coefficients = {
