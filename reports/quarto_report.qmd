@@ -112,21 +112,36 @@ The dataset, titled "Laptop Dataset (2024)," encompasses a meticulously curated 
 
 This dataset serves as a solid foundation for exploring laptop pricing dynamics and consumer preferences, equipped with a rich set of features for in-depth analysis. It consists of a total of 991 observations, each detailing a unique laptop configuration to assist in the development of accurate price prediction models and effective recommendation systems.
 
+![Distribution of laptop prices](../visualisations/Graph1.png){#fig-distribution-of-laptop-prices width=90%}
+<img src="../visualisations/Graph1.png" alt="Distribution of laptop prices" id="fig-distribution-of-laptop-prices" style="width: 90%;">
 
-![Distribution of laptop prices](visualisations/Graph1.png){#fig-graph1 width=90%}
-
-The key takeaway from analyzing the distribution of laptop prices from @fig-graph1 is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.
+The key takeaway from analyzing the distribution of laptop prices from Figure @ref(fig-distribution-of-laptop-prices) is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.
 
 The prevalence of lower-priced laptops could indicate a stronger market demand in this price segment, possibly reflecting the purchasing power of the consumer base or the competitive pricing strategies of manufacturers. For predictive modeling, this skewness towards lower prices could influence the model's accuracy, potentially leading it to be more reliable at predicting prices for lower-priced laptops than for higher-priced ones.
 
 Additionally, the tapering off of frequency at higher price points may point to a smaller niche market for premium laptops. For businesses and retailers, this distribution could inform inventory and marketing strategies, emphasizing the broad appeal of budget-friendly options. In the context of price prediction, care must be taken to ensure that the model does not undervalue the unique features and qualities that might justify the higher prices of less common, premium models.
 ...
 
+```{python}
+#| echo: false
+#| label: data-loading-and-analysis
+import os
+import pandas as pd
+
+# Specify the path to the DATA folder relative to the reports folder
+data_folder = '../DATA'
+
+# Read the specific file 'laptops.csv' from the DATA folder
+file_path = os.path.join(data_folder, 'laptops.csv')
+df = pd.read_csv(file_path)
+```
 
 ```{python}
 #| echo: false
 #| label: tbl-laptop-prices
-#| tbl-cap: Descriptive statistics of laptop prices in USD.
+#| tbl-cap: "Descriptive statistics of laptop prices in USD."
+
+import pandas as pd
 
 # Perform descriptive analysis on 'Price' column of the df DataFrame
 descriptive_stats = df['Price'].describe()
@@ -134,8 +149,8 @@ descriptive_stats = df['Price'].describe()
 # Convert the descriptive_stats Series to a DataFrame for better formatting
 descriptive_stats_df = pd.DataFrame(descriptive_stats)
 
-# Convert the DataFrame to a Markdown table
-Markdown(descriptive_stats_df.to_markdown())
+# Print the Markdown table directly
+print(descriptive_stats_df.to_markdown())
 ```
 
 The output of the descriptive analysis on the `Price` column provides valuable insights into the distribution and characteristics of laptop prices in USD in the dataset:
@@ -168,10 +183,9 @@ The boolean column `is_touch_screen` indicates binary data, which can be easily 
 ```{python}
 #| echo: false
 #| label: tbl-laptop-specs
-#| tbl-cap: Descriptive statistics of laptop specifications and prices in USD.
+#| tbl-cap: "Descriptive statistics of laptop specifications and prices in USD."
 
-# Convert the DataFrame to a Markdown table
-Markdown(df_describe.to_markdown())
+print(descriptive_stats_df.to_markdown())
 ```
 
 The descriptive analysis of the laptop dataset provides insightful information regarding the specifications and price points of laptops:
@@ -193,10 +207,10 @@ The descriptive analysis of the laptop dataset provides insightful information r
 This data suggests a diverse range of laptops catering to various needs and budgets, from basic models suitable for everyday tasks to high-end laptops with advanced features. For predictive modeling and market analysis, this variance in features and prices will need to be considered, as it affects both consumer choice and pricing strategies.
 
 
-![Brand distribution](visualisations/Graph6.png){#fig-brand-distribution width=90%}
-![Barplot b/w Price and processor_brand](visualisations/Graph7.png){#fig-barplot-processor-brand width=90%}
-![Distribution of all numeric variables](visualisations/Graph2.png){#fig-distribution-numeric width=90%}
-![Distribution of all variables](visualisations/Graph3.png){#fig-distribution-all width=90%}
+![Brand distribution](../visualisations/Graph6.png){#fig-brand-distribution width=90%}
+![Barplot b/w Price and processor_brand](../visualisations/Graph7.png){#fig-barplot-processor-brand width=90%}
+![Distribution of all numeric variables](../visualisations/Graph2.png){#fig-distribution-numeric width=90%}
+![Distribution of all variables](../visualisations/Graph3.png){#fig-distribution-all width=90%}
 
 # 5. Handle missing values
 
@@ -205,12 +219,12 @@ Luckily, there are no missing values in our data!
 
 # 6. outliers
 
-![Outliers](visualisations/Graph4.png){#fig-outliers width=90%}
+![Outliers](../visualisations/Graph4.png){#fig-outliers width=90%}
 
 
 # 7. Correlation analysis
 
-![Correlation matrix](visualisations/Graph4.png){#fig-correlation-matrix width=90%}
+![Correlation matrix](../visualisations/Graph4.png){#fig-correlation-matrix width=90%}
 
 Positive correlations (strongest at the bottom):
 
@@ -273,16 +287,36 @@ To ensure the reproducibility of our results and maintain consistency in model e
 In our ongoing analysis, we turn our attention to understanding the distribution of categorical variables within our training dataset. A key step in this process involves calculating the frequency ratio for each feature. The frequency ratio is defined as the count of the most frequent value divided by the count of the second most frequent value for each variable. This metric provides insight into the balance or imbalance of categorical data, highlighting variables that may have a dominant category. Such insights are invaluable for feature selection and preprocessing steps, as they can influence the model's ability to learn from the data effectively.
 
 
-```{python echo=FALSE}
+```{python}
+#| echo: false
 import pandas as pd
+import numpy as np
 
-# Calculate the frequency ratio
+# Set a random seed for reproducibility
+np.random.seed(987654321)
+
+# Define the proportion of the dataset to include in the train split
+train_ratio = 0.7
+num_samples = len(df)
+num_train_samples = int(train_ratio * num_samples)
+
+# Randomly select indices for the training set
+which_train = np.random.choice(range(num_samples), size=num_train_samples, replace=False)
+
+# Split the data into training and testing sets
+train = df.iloc[which_train].copy()
+test = df.drop(which_train).copy()
+
+# Calculate the frequency ratio for the training set
 freq_ratio = train.apply(lambda x: x.value_counts().iloc[0] / x.value_counts().iloc[1] if len(x.value_counts()) > 1 else float('nan'))
 
-# Convert the series to a DataFrame and print it
+# Convert the series to a DataFrame for better readability
 freq_ratio_df = pd.DataFrame(freq_ratio, columns=['Frequency Ratio'])
-print(freq_ratio_df)
+
+# Display the frequency ratio as a Markdown table
+print(freq_ratio_df.to_markdown())
 ```
+
 
 The frequency ratio analysis reveals the distribution dynamics of our dataset's features. Here's a breakdown of what these ratios indicate:
 
@@ -467,7 +501,7 @@ formula = 'Price ~ Rating + num_cores + num_threads + ram_memory + primary_stora
 
 The OLS regression results indicate that the model explains approximately 74.6% of the variance in laptop prices, as indicated by the R-squared value of 0.746. This suggests that the selected independent variables collectively have a moderate level of explanatory power in predicting laptop prices.
 
-![Coefficients of Independent Variables](visualisations/Graph8.png){#fig-coefficients width=90%}
+![Coefficients of Independent Variables](../visualisations/Graph8.png){#fig-coefficients width=90%}
 
 
 ## Coefficients Interpretation
