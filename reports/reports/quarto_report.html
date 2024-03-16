@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.543">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -256,8 +256,17 @@ window.Quarto = {
 <li><code>Year_of_warranty</code>: The duration of the warranty provided for the laptop, usually in years.</li>
 </ul>
 <p>This dataset serves as a solid foundation for exploring laptop pricing dynamics and consumer preferences, equipped with a rich set of features for in-depth analysis. It consists of a total of 991 observations, each detailing a unique laptop configuration to assist in the development of accurate price prediction models and effective recommendation systems.</p>
-<p><img src="../visualisations/Graph1.png" alt="Distribution of laptop prices" name="fig-distribution-of-laptop-prices" style="width: 90%;"></p>
-<p>The key takeaway from analyzing the distribution of laptop prices from <a href="#fig-distribution-of-laptop-prices">Figure 1</a> is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.</p>
+<div id="fig-distribution-of-laptop-prices" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-of-laptop-prices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph1.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-of-laptop-prices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Distribution of laptop prices.
+</figcaption>
+</figure>
+</div>
+<p>The key takeaway from <a href="#fig-distribution-of-laptop-prices" class="quarto-xref">Figure&nbsp;1</a> analyzing the distribution of laptop prices from is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.</p>
 <p>The prevalence of lower-priced laptops could indicate a stronger market demand in this price segment, possibly reflecting the purchasing power of the consumer base or the competitive pricing strategies of manufacturers. For predictive modeling, this skewness towards lower prices could influence the model’s accuracy, potentially leading it to be more reliable at predicting prices for lower-priced laptops than for higher-priced ones.</p>
 <p>Additionally, the tapering off of frequency at higher price points may point to a smaller niche market for premium laptops. For businesses and retailers, this distribution could inform inventory and marketing strategies, emphasizing the broad appeal of budget-friendly options. In the context of price prediction, care must be taken to ensure that the model does not undervalue the unique features and qualities that might justify the higher prices of less common, premium models. …</p>
 <div class="cell" data-execution_count="3">
@@ -268,7 +277,6 @@ Table&nbsp;1: Descriptive statistics of laptop prices in USD.
 </figcaption>
 <div aria-describedby="tbl-laptop-prices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">
-<div>
 <div>
 
 
@@ -327,7 +335,6 @@ Table&nbsp;1: Descriptive statistics of laptop prices in USD.
 </div>
 </div>
 </div>
-</div>
 </figure>
 </div>
 </div>
@@ -356,18 +363,19 @@ Table&nbsp;2: Descriptive statistics of laptop specifications and prices in USD.
 </figcaption>
 <div aria-describedby="tbl-laptop-specs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-stdout">
-<pre><code>|    | Statistic   |    Value |
-|---:|:------------|---------:|
-|  0 | count       |    991   |
-|  1 | mean        |  77266.5 |
-|  2 | std         |  57384.9 |
-|  3 | min         |   9800   |
-|  4 | 25%         |  43595   |
-|  5 | 50%         |  61900   |
-|  6 | 75%         |  89245   |
-|  7 | max         | 454490   |</code></pre>
+
 </div>
 </div>
+</figure>
+</div>
+<div id="fig-brand-distribution" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-brand-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph6.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-brand-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Brand distribution
+</figcaption>
 </figure>
 </div>
 <p>The descriptive analysis of the laptop dataset provides insightful information regarding the specifications and price points of laptops:</p>
@@ -380,8 +388,38 @@ Table&nbsp;2: Descriptive statistics of laptop specifications and prices in USD.
 <li><p><strong>Resolution</strong>: The average resolution width is 2003.5 pixels with a notable standard deviation of 361.97 pixels, indicating a variety of display resolutions, with the most common being 1920 pixels wide. The average resolution height is 1181.23 pixels, with 1080 pixels being the typical height, suggesting that many laptops in the dataset likely have Full HD displays.</p></li>
 <li><p><strong>Price</strong>: The average price of a laptop is $926.45 USD, with a wide range in prices as demonstrated by the standard deviation of $688.62 USD. The prices range from as low as $117 USD to as high as $5453 USD, indicating a dataset that includes both budget-friendly options and premium models.</p></li>
 </ul>
+<div id="fig-barplot-processor-brand" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barplot-processor-brand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph7.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barplot-processor-brand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Barplot b/w Price and processor_brand
+</figcaption>
+</figure>
+</div>
 <p>This data suggests a diverse range of laptops catering to various needs and budgets, from basic models suitable for everyday tasks to high-end laptops with advanced features. For predictive modeling and market analysis, this variance in features and prices will need to be considered, as it affects both consumer choice and pricing strategies.</p>
-<p><img src="../visualisations/Graph6.png" id="fig-brand-distribution" class="img-fluid" style="width:90.0%" alt="Brand distribution"> <img src="../visualisations/Graph7.png" id="fig-barplot-processor-brand" class="img-fluid" style="width:90.0%" alt="Barplot b/w Price and processor_brand"> <img src="../visualisations/Graph2.png" id="fig-distribution-numeric" class="img-fluid" style="width:90.0%" alt="Distribution of all numeric variables"> <img src="../visualisations/Graph3.png" id="fig-distribution-all" class="img-fluid" style="width:90.0%" alt="Distribution of all variables"></p>
+<div id="fig-distribution-numeric" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-numeric-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph2.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-numeric-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Distribution of all numeric variables
+</figcaption>
+</figure>
+</div>
+<div id="fig-distribution-all" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph3.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Distribution of all variables
+</figcaption>
+</figure>
+</div>
+<hr>
 </section>
 <section id="handle-missing-values" class="level1">
 <h1>5. Handle missing values</h1>
@@ -392,10 +430,10 @@ Table&nbsp;2: Descriptive statistics of laptop specifications and prices in USD.
 <div id="fig-outliers" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../visualisations/Graph4.png" class="img-fluid figure-img" style="width:90.0%">
+<img src="../visualisations/Graph4.png" class="img-fluid figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Outliers
+Figure&nbsp;6: Outliers
 </figcaption>
 </figure>
 </div>
@@ -405,10 +443,10 @@ Figure&nbsp;1: Outliers
 <div id="fig-correlation-matrix" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-correlation-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../visualisations/Graph4.png" class="img-fluid figure-img" style="width:90.0%">
+<img src="../visualisations/Graph4.png" class="img-fluid figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlation-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Correlation matrix
+Figure&nbsp;7: Correlation matrix
 </figcaption>
 </figure>
 </div>
@@ -447,7 +485,7 @@ Figure&nbsp;2: Correlation matrix
 <p>We employ a randomized approach to create these subsets, aiming for a 70:30 split between training and testing data. This means 70% of our data will be used to train the model, allowing it to learn and adapt to the patterns within our dataset. The remaining 30% serves as the test set, which will be used to evaluate the model’s predictive accuracy and generalizability to new data.</p>
 <p>To ensure the reproducibility of our results and maintain consistency in model evaluation, we set a fixed seed for the random number generator. This approach guarantees that the selection of data for the training and testing sets is both random and unbiased, providing a solid foundation for our subsequent analysis.</p>
 <p>In our ongoing analysis, we turn our attention to understanding the distribution of categorical variables within our training dataset. A key step in this process involves calculating the frequency ratio for each feature. The frequency ratio is defined as the count of the most frequent value divided by the count of the second most frequent value for each variable. This metric provides insight into the balance or imbalance of categorical data, highlighting variables that may have a dominant category. Such insights are invaluable for feature selection and preprocessing steps, as they can influence the model’s ability to learn from the data effectively.</p>
-<div id="c168f9c4" class="cell" data-execution_count="5">
+<div id="e295c5db" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>|                            |   Frequency Ratio |
 |:---------------------------|------------------:|
@@ -485,7 +523,7 @@ Figure&nbsp;2: Correlation matrix
 <li><p><strong>Display_size, resolution_width, and resolution_height:</strong> Moderate ratios suggest some variability, which could be informative for the model, indicating that these features have multiple common values but with a clear preference for one.</p></li>
 </ul>
 <p>Interpreting these ratios helps us understand the variability and balance within our dataset, guiding us in feature selection and preprocessing. Features with extremely high ratios may require careful consideration, as their predictive power might be compromised by the lack of diversity in their values.</p>
-<div id="1223397c" class="cell" data-execution_count="6">
+<div id="6f4b451e" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>                                Variance
 index                       8.354801e+04
@@ -520,15 +558,15 @@ resolution_height           6.681680e+04</code></pre>
 </section>
 <section id="ols-with-only-numeric-variables" class="level2">
 <h2 class="anchored" data-anchor-id="ols-with-only-numeric-variables">OLS with only numeric variables</h2>
-<div id="3df33bd8" class="cell" data-execution_count="7">
+<div id="0a4501af" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                  Price   R-squared:                       0.746
 Model:                            OLS   Adj. R-squared:                  0.743
 Method:                 Least Squares   F-statistic:                     200.6
-Date:                Fri, 15 Mar 2024   Prob (F-statistic):          1.36e-195
-Time:                        21:28:18   Log-Likelihood:                -8094.5
+Date:                Sat, 16 Mar 2024   Prob (F-statistic):          1.36e-195
+Time:                        12:09:58   Log-Likelihood:                -8094.5
 No. Observations:                 693   AIC:                         1.621e+04
 Df Residuals:                     682   BIC:                         1.626e+04
 Df Model:                          10                                         
@@ -606,15 +644,15 @@ strong multicollinearity or other numerical problems.</code></pre>
 <h2 class="anchored" data-anchor-id="model-choice">Model choice</h2>
 <section id="model-1-with-only-numerical-variables" class="level3">
 <h3 class="anchored" data-anchor-id="model-1-with-only-numerical-variables">Model 1 with only numerical variables</h3>
-<div id="0c17e793" class="cell" data-execution_count="8">
+<div id="2bcc358b" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                  Price   R-squared:                       0.746
 Model:                            OLS   Adj. R-squared:                  0.743
 Method:                 Least Squares   F-statistic:                     200.6
-Date:                Fri, 15 Mar 2024   Prob (F-statistic):          1.36e-195
-Time:                        21:28:18   Log-Likelihood:                -8094.5
+Date:                Sat, 16 Mar 2024   Prob (F-statistic):          1.36e-195
+Time:                        12:09:58   Log-Likelihood:                -8094.5
 No. Observations:                 693   AIC:                         1.621e+04
 Df Residuals:                     682   BIC:                         1.626e+04
 Df Model:                          10                                         
@@ -670,7 +708,7 @@ strong multicollinearity or other numerical problems.</code></pre>
 <section id="model-specification" class="level3">
 <h3 class="anchored" data-anchor-id="model-specification">Model Specification</h3>
 <p>We employed Ordinary Least Squares (OLS) regression to investigate the relationship between various laptop features and their prices. The model was specified using the following formula:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="model-performance" class="level2">
@@ -682,7 +720,7 @@ strong multicollinearity or other numerical problems.</code></pre>
 <img src="../visualisations/Graph8.png" class="img-fluid figure-img" style="width:90.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coefficients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Coefficients of Independent Variables
+Figure&nbsp;8: Coefficients of Independent Variables
 </figcaption>
 </figure>
 </div>
