@@ -112,9 +112,10 @@ The dataset, titled "Laptop Dataset (2024)," encompasses a meticulously curated 
 
 This dataset serves as a solid foundation for exploring laptop pricing dynamics and consumer preferences, equipped with a rich set of features for in-depth analysis. It consists of a total of 991 observations, each detailing a unique laptop configuration to assist in the development of accurate price prediction models and effective recommendation systems.
 
-<img src="../visualisations/Graph1.png" alt="Distribution of laptop prices" name="fig-distribution-of-laptop-prices" style="width: 90%;">
+![Distribution of laptop prices.](../visualisations/Graph1.png){#fig-distribution-of-laptop-prices width=60%}
 
-The key takeaway from analyzing the distribution of laptop prices from <a href="#fig-distribution-of-laptop-prices">Figure 1</a> is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.
+
+The key takeaway from @fig-distribution-of-laptop-prices analyzing the distribution of laptop prices from  is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.
 
 The prevalence of lower-priced laptops could indicate a stronger market demand in this price segment, possibly reflecting the purchasing power of the consumer base or the competitive pricing strategies of manufacturers. For predictive modeling, this skewness towards lower prices could influence the model's accuracy, potentially leading it to be more reliable at predicting prices for lower-priced laptops than for higher-priced ones.
 
@@ -210,11 +211,11 @@ The descriptive analysis of the laptop dataset provides insightful information r
 This data suggests a diverse range of laptops catering to various needs and budgets, from basic models suitable for everyday tasks to high-end laptops with advanced features. For predictive modeling and market analysis, this variance in features and prices will need to be considered, as it affects both consumer choice and pricing strategies.
 
 
-![Brand distribution](../visualisations/Graph6.png){#fig-brand-distribution width=90%}
-![Barplot b/w Price and processor_brand](../visualisations/Graph7.png){#fig-barplot-processor-brand width=90%}
-![Distribution of all numeric variables](../visualisations/Graph2.png){#fig-distribution-numeric width=90%}
-![Distribution of all variables](../visualisations/Graph3.png){#fig-distribution-all width=90%}
-
+![Brand distribution](../visualisations/Graph6.png){#fig-brand-distribution width=50%}
+![Barplot b/w Price and processor_brand](../visualisations/Graph7.png){#fig-barplot-processor-brand width=50%}
+![Distribution of all numeric variables](../visualisations/Graph2.png){#fig-distribution-numeric width=50%}
+![Distribution of all variables](../visualisations/Graph3.png){#fig-distribution-all width=50%}
+@fig-brand-distribution
 # 5. Handle missing values
 
 Luckily, there are no missing values in our data!
@@ -222,12 +223,12 @@ Luckily, there are no missing values in our data!
 
 # 6. outliers
 
-![Outliers](../visualisations/Graph4.png){#fig-outliers width=90%}
+![Outliers](../visualisations/Graph4.png){#fig-outliers width=50%}
 
 
 # 7. Correlation analysis
 
-![Correlation matrix](../visualisations/Graph4.png){#fig-correlation-matrix width=90%}
+![Correlation matrix](../visualisations/Graph4.png){#fig-correlation-matrix width=50%}
 
 Positive correlations (strongest at the bottom):
 
