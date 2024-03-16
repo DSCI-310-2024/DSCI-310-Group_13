@@ -8,14 +8,13 @@
 # make all
 
 # run entire analysis
-all: reports/quarto_report.html \
-reports/quarto_report.pdf \
-DATA/laptops.csv \
-DATA/cleaned_data \
-results/plots \
-results/models
+all: DATA/laptops.csv \
+	DATA/cleaned_data \
+	results/plots \
+	results/models \
+	reports/quarto_report.html \
+	reports/quarto_report.pdf
 
-# data download
 # download data
 DATA/laptops.csv: script/download_data.py
 	python script/download_data.py \
@@ -43,9 +42,25 @@ results/models: DATA/laptops.csv script/modelling.py
 
 #render quarto report in HTML
 reports/quarto_report.html: reports/quarto_report.qmd
-	quarto render reports/quarto_report.qmd --to html --output-dir reports
+	quarto render reports/quarto_report.qmd --to html
 
 
 # render quarto report in PDF
 reports/quarto_report.pdf: reports/quarto_report.qmd
-	quarto render reports/quarto_report.qmd --to pdf --output-dir reports
+	quarto render reports/quarto_report.qmd --to pdf
+
+
+# 'make clean' will remove targeted files in clean:
+clean:
+	rm -rf DATA/cleaned_data.csv_train.csv
+	rm -rf DATA/cleaned_data.csv_test.csv
+	rm -rf Visualisations/01_Barplot_Price_processor_brand.png \
+		Visualisations/01_processor_distribution.png \
+		Visualisations/01_brand_distribution.png \
+		Visualisations/01_grid_1.png \
+		Visualisations/01_grid_2.png \
+		Visualisations/01_price_distribution.png
+	rm -rf results/02_brand_distribution.png \
+		results/02_summary_stats.png
+	rm -rf reports/quarto_report.html\
+		reports/quarto_report.pdf
