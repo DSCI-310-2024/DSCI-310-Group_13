@@ -121,6 +121,7 @@ window.Quarto = {
   <li><a href="#explanatory-data-analysis" id="toc-explanatory-data-analysis" class="nav-link" data-scroll-target="#explanatory-data-analysis">Explanatory data analysis</a></li>
   <li><a href="#investigate-data-types" id="toc-investigate-data-types" class="nav-link" data-scroll-target="#investigate-data-types">2. Investigate Data Types</a></li>
   <li><a href="#investigate-data" id="toc-investigate-data" class="nav-link" data-scroll-target="#investigate-data">3. Investigate data</a></li>
+  <li><a href="#handle-missing-values" id="toc-handle-missing-values" class="nav-link" data-scroll-target="#handle-missing-values">5. Handle missing values</a></li>
   <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">6. outliers</a></li>
   <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">7. Correlation analysis</a></li>
   <li><a href="#linear-regression-model-using-ordinary-least-squares-ols-estimation" id="toc-linear-regression-model-using-ordinary-least-squares-ols-estimation" class="nav-link" data-scroll-target="#linear-regression-model-using-ordinary-least-squares-ols-estimation">Linear regression model using ordinary least squares (OLS) estimation</a>
@@ -367,6 +368,16 @@ Table&nbsp;2: Descriptive statistics of laptop specifications and prices in USD.
 </div>
 </figure>
 </div>
+<div id="fig-brand-distribution" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-brand-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph6.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-brand-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Brand distribution
+</figcaption>
+</figure>
+</div>
 <p>The descriptive analysis of the laptop dataset provides insightful information regarding the specifications and price points of laptops:</p>
 <ul>
 <li><p><strong>Rating</strong>: With a mean rating of 63.93 and a standard deviation of 10.19, the laptops in the dataset have a moderate average rating, with a typical range between 53.74 (mean - std) and 74.12 (mean + std). The ratings span from a low of 24 to a high of 89, indicating a wide range of customer satisfaction.</p></li>
@@ -377,8 +388,41 @@ Table&nbsp;2: Descriptive statistics of laptop specifications and prices in USD.
 <li><p><strong>Resolution</strong>: The average resolution width is 2003.5 pixels with a notable standard deviation of 361.97 pixels, indicating a variety of display resolutions, with the most common being 1920 pixels wide. The average resolution height is 1181.23 pixels, with 1080 pixels being the typical height, suggesting that many laptops in the dataset likely have Full HD displays.</p></li>
 <li><p><strong>Price</strong>: The average price of a laptop is $926.45 USD, with a wide range in prices as demonstrated by the standard deviation of $688.62 USD. The prices range from as low as $117 USD to as high as $5453 USD, indicating a dataset that includes both budget-friendly options and premium models.</p></li>
 </ul>
+<div id="fig-barplot-processor-brand" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barplot-processor-brand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph7.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barplot-processor-brand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Barplot b/w Price and processor_brand
+</figcaption>
+</figure>
+</div>
 <p>This data suggests a diverse range of laptops catering to various needs and budgets, from basic models suitable for everyday tasks to high-end laptops with advanced features. For predictive modeling and market analysis, this variance in features and prices will need to be considered, as it affects both consumer choice and pricing strategies.</p>
-<p><img src="../visualisations/Graph6.png" id="fig-brand-distribution" class="img-fluid" style="width:50.0%" alt="Brand distribution"> <img src="../visualisations/Graph7.png" id="fig-barplot-processor-brand" class="img-fluid" style="width:50.0%" alt="Barplot b/w Price and processor_brand"> <img src="../visualisations/Graph2.png" id="fig-distribution-numeric" class="img-fluid" style="width:50.0%" alt="Distribution of all numeric variables"> <img src="../visualisations/Graph3.png" id="fig-distribution-all" class="img-fluid" style="width:50.0%" alt="Distribution of all variables"> <strong>?@fig-brand-distribution</strong> # 5. Handle missing values</p>
+<div id="fig-distribution-numeric" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-numeric-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph2.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-numeric-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Distribution of all numeric variables
+</figcaption>
+</figure>
+</div>
+<div id="fig-distribution-all" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph3.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Distribution of all variables
+</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="handle-missing-values" class="level1">
+<h1>5. Handle missing values</h1>
 <p>Luckily, there are no missing values in our data!</p>
 </section>
 <section id="outliers" class="level1">
@@ -389,7 +433,7 @@ Table&nbsp;2: Descriptive statistics of laptop specifications and prices in USD.
 <img src="../visualisations/Graph4.png" class="img-fluid figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Outliers
+Figure&nbsp;6: Outliers
 </figcaption>
 </figure>
 </div>
@@ -402,7 +446,7 @@ Figure&nbsp;2: Outliers
 <img src="../visualisations/Graph4.png" class="img-fluid figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlation-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Correlation matrix
+Figure&nbsp;7: Correlation matrix
 </figcaption>
 </figure>
 </div>
@@ -441,7 +485,7 @@ Figure&nbsp;3: Correlation matrix
 <p>We employ a randomized approach to create these subsets, aiming for a 70:30 split between training and testing data. This means 70% of our data will be used to train the model, allowing it to learn and adapt to the patterns within our dataset. The remaining 30% serves as the test set, which will be used to evaluate the model’s predictive accuracy and generalizability to new data.</p>
 <p>To ensure the reproducibility of our results and maintain consistency in model evaluation, we set a fixed seed for the random number generator. This approach guarantees that the selection of data for the training and testing sets is both random and unbiased, providing a solid foundation for our subsequent analysis.</p>
 <p>In our ongoing analysis, we turn our attention to understanding the distribution of categorical variables within our training dataset. A key step in this process involves calculating the frequency ratio for each feature. The frequency ratio is defined as the count of the most frequent value divided by the count of the second most frequent value for each variable. This metric provides insight into the balance or imbalance of categorical data, highlighting variables that may have a dominant category. Such insights are invaluable for feature selection and preprocessing steps, as they can influence the model’s ability to learn from the data effectively.</p>
-<div id="c6cc76c8" class="cell" data-execution_count="5">
+<div id="e295c5db" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>|                            |   Frequency Ratio |
 |:---------------------------|------------------:|
@@ -479,7 +523,7 @@ Figure&nbsp;3: Correlation matrix
 <li><p><strong>Display_size, resolution_width, and resolution_height:</strong> Moderate ratios suggest some variability, which could be informative for the model, indicating that these features have multiple common values but with a clear preference for one.</p></li>
 </ul>
 <p>Interpreting these ratios helps us understand the variability and balance within our dataset, guiding us in feature selection and preprocessing. Features with extremely high ratios may require careful consideration, as their predictive power might be compromised by the lack of diversity in their values.</p>
-<div id="7e41a443" class="cell" data-execution_count="6">
+<div id="6f4b451e" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>                                Variance
 index                       8.354801e+04
@@ -514,7 +558,7 @@ resolution_height           6.681680e+04</code></pre>
 </section>
 <section id="ols-with-only-numeric-variables" class="level2">
 <h2 class="anchored" data-anchor-id="ols-with-only-numeric-variables">OLS with only numeric variables</h2>
-<div id="21950175" class="cell" data-execution_count="7">
+<div id="0a4501af" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -522,7 +566,7 @@ Dep. Variable:                  Price   R-squared:                       0.746
 Model:                            OLS   Adj. R-squared:                  0.743
 Method:                 Least Squares   F-statistic:                     200.6
 Date:                Sat, 16 Mar 2024   Prob (F-statistic):          1.36e-195
-Time:                        11:24:01   Log-Likelihood:                -8094.5
+Time:                        12:09:58   Log-Likelihood:                -8094.5
 No. Observations:                 693   AIC:                         1.621e+04
 Df Residuals:                     682   BIC:                         1.626e+04
 Df Model:                          10                                         
@@ -600,7 +644,7 @@ strong multicollinearity or other numerical problems.</code></pre>
 <h2 class="anchored" data-anchor-id="model-choice">Model choice</h2>
 <section id="model-1-with-only-numerical-variables" class="level3">
 <h3 class="anchored" data-anchor-id="model-1-with-only-numerical-variables">Model 1 with only numerical variables</h3>
-<div id="910121a5" class="cell" data-execution_count="8">
+<div id="2bcc358b" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -608,7 +652,7 @@ Dep. Variable:                  Price   R-squared:                       0.746
 Model:                            OLS   Adj. R-squared:                  0.743
 Method:                 Least Squares   F-statistic:                     200.6
 Date:                Sat, 16 Mar 2024   Prob (F-statistic):          1.36e-195
-Time:                        11:24:01   Log-Likelihood:                -8094.5
+Time:                        12:09:58   Log-Likelihood:                -8094.5
 No. Observations:                 693   AIC:                         1.621e+04
 Df Residuals:                     682   BIC:                         1.626e+04
 Df Model:                          10                                         
@@ -676,7 +720,7 @@ strong multicollinearity or other numerical problems.</code></pre>
 <img src="../visualisations/Graph8.png" class="img-fluid figure-img" style="width:90.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coefficients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Coefficients of Independent Variables
+Figure&nbsp;8: Coefficients of Independent Variables
 </figcaption>
 </figure>
 </div>

@@ -5,10 +5,12 @@ format:
     html:
         toc: true # table of contents
         toc-depth: 2
+        fig-pos: "H"
     pdf:
         toc: true
         toc-depth: 2
         fig-pos: "H"
+        geometry: "margin=20mm"
 bibliography: references.bib
 execute:
     echo: false #don't reprint the code(only output)
@@ -192,6 +194,8 @@ The boolean column `is_touch_screen` indicates binary data, which can be easily 
 print(descriptive_stats_df.to_markdown())
 ```
 
+![Brand distribution](../visualisations/Graph6.png){#fig-brand-distribution width=50%}
+
 The descriptive analysis of the laptop dataset provides insightful information regarding the specifications and price points of laptops:
 
 - **Rating**: With a mean rating of 63.93 and a standard deviation of 10.19, the laptops in the dataset have a moderate average rating, with a typical range between 53.74 (mean - std) and 74.12 (mean + std). The ratings span from a low of 24 to a high of 89, indicating a wide range of customer satisfaction.
@@ -208,14 +212,19 @@ The descriptive analysis of the laptop dataset provides insightful information r
 
 - **Price**: The average price of a laptop is \$926.45 USD, with a wide range in prices as demonstrated by the standard deviation of \$688.62 USD. The prices range from as low as \$117 USD to as high as \$5453 USD, indicating a dataset that includes both budget-friendly options and premium models.
 
+![Barplot b/w Price and processor_brand](../visualisations/Graph7.png){#fig-barplot-processor-brand width=50%}
+
 This data suggests a diverse range of laptops catering to various needs and budgets, from basic models suitable for everyday tasks to high-end laptops with advanced features. For predictive modeling and market analysis, this variance in features and prices will need to be considered, as it affects both consumer choice and pricing strategies.
 
 
-![Brand distribution](../visualisations/Graph6.png){#fig-brand-distribution width=50%}
-![Barplot b/w Price and processor_brand](../visualisations/Graph7.png){#fig-barplot-processor-brand width=50%}
-![Distribution of all numeric variables](../visualisations/Graph2.png){#fig-distribution-numeric width=50%}
-![Distribution of all variables](../visualisations/Graph3.png){#fig-distribution-all width=50%}
-@fig-brand-distribution
+![Distribution of all numeric variables](../visualisations/Graph2.png){#fig-distribution-numeric width=70%}
+
+
+![Distribution of all variables](../visualisations/Graph3.png){#fig-distribution-all width=70%}
+
+
+--------------------------------------------------------------
+
 # 5. Handle missing values
 
 Luckily, there are no missing values in our data!
