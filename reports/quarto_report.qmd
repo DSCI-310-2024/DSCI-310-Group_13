@@ -112,10 +112,9 @@ The dataset, titled "Laptop Dataset (2024)," encompasses a meticulously curated 
 
 This dataset serves as a solid foundation for exploring laptop pricing dynamics and consumer preferences, equipped with a rich set of features for in-depth analysis. It consists of a total of 991 observations, each detailing a unique laptop configuration to assist in the development of accurate price prediction models and effective recommendation systems.
 
-![Distribution of laptop prices](../visualisations/Graph1.png){#fig-distribution-of-laptop-prices width=90%}
-<img src="../visualisations/Graph1.png" alt="Distribution of laptop prices" id="fig-distribution-of-laptop-prices" style="width: 90%;">
+<img src="../visualisations/Graph1.png" alt="Distribution of laptop prices" name="fig-distribution-of-laptop-prices" style="width: 90%;">
 
-The key takeaway from analyzing the distribution of laptop prices from Figure @ref(fig-distribution-of-laptop-prices) is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.
+The key takeaway from analyzing the distribution of laptop prices from <a href="#fig-distribution-of-laptop-prices">Figure 1</a> is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.
 
 The prevalence of lower-priced laptops could indicate a stronger market demand in this price segment, possibly reflecting the purchasing power of the consumer base or the competitive pricing strategies of manufacturers. For predictive modeling, this skewness towards lower prices could influence the model's accuracy, potentially leading it to be more reliable at predicting prices for lower-priced laptops than for higher-priced ones.
 
@@ -142,15 +141,19 @@ df = pd.read_csv(file_path)
 #| tbl-cap: "Descriptive statistics of laptop prices in USD."
 
 import pandas as pd
+from IPython.display import display
 
 # Perform descriptive analysis on 'Price' column of the df DataFrame
 descriptive_stats = df['Price'].describe()
 
 # Convert the descriptive_stats Series to a DataFrame for better formatting
-descriptive_stats_df = pd.DataFrame(descriptive_stats)
+descriptive_stats_df = pd.DataFrame(descriptive_stats).reset_index()
 
-# Print the Markdown table directly
-print(descriptive_stats_df.to_markdown())
+# Rename columns for clarity
+descriptive_stats_df.columns = ['Statistic', 'Value']
+
+# Use IPython.display.display to render the DataFrame as an HTML table
+display(descriptive_stats_df)
 ```
 
 The output of the descriptive analysis on the `Price` column provides valuable insights into the distribution and characteristics of laptop prices in USD in the dataset:

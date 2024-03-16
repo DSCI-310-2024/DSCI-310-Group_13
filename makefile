@@ -14,3 +14,4 @@ all: reports/quarto_report.html
 # render quarto report in HTML
 reports/quarto_report.html: reports/quarto_report.qmd
 	quarto render reports/quarto_report.qmd --to html --output-dir reports
+
