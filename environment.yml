@@ -208,4 +208,25 @@ dependencies:
   - zeromq=4.3.5=h93d8f39_0
   - zipp=3.17.0=pyhd8ed1ab_0
   - zstd=1.5.5=h829000d_0
-prefix: /Users/lucas007/opt/anaconda3/envs/project_env
+
+#   - altair == 4.1.0
+#   - vega_datasets
+#   - imbalanced-learn == 0.8.1
+#   - matplotlib == 3.5.1
+#   - numpy == 1.21.5
+#   - pandas == 1.4.1
+#   - scikit-learn == 1.0.2
+#   - seaborn == 0.11.2
+#   - statsmodels == 0.13.1
+#   - python=3.9.10
+#   - tabulate == 0.8.9
+#   - click
+#   - requests
+#   - selenium
+#   - pillow
+#   - ipython == 8.0.1
+#   - vl-convert-python
+#   - jupyter
+#   - pyyaml
+  
+
