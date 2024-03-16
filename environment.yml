@@ -23,5 +23,4 @@ dependencies:
   - ipython == 8.0.1
   - jupyter
   - pyyaml
-  - tabulate
   
