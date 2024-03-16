@@ -328,6 +328,18 @@ freq_ratio_df = pd.DataFrame(freq_ratio, columns=['Frequency Ratio'])
 
 # Display the frequency ratio as a Markdown table
 print(freq_ratio_df.to_markdown())
+#Retrieve and round the frequency ratios for other variables
+processor_brand_ratio = freq_ratio_df.loc['processor_brand', 'Frequency Ratio']
+processor_tier_ratio = freq_ratio_df.loc['processor_tier', 'Frequency Ratio']
+primary_storage_type_ratio = round(freq_ratio_df.loc['primary_storage_type', 'Frequency Ratio'], 2)
+secondary_storage_type_ratio = round(freq_ratio_df.loc['secondary_storage_type', 'Frequency Ratio'], 2)
+secondary_storage_capacity_ratio = round(freq_ratio_df.loc['secondary_storage_capacity', 'Frequency Ratio'], 2)
+is_touch_screen_ratio = round(freq_ratio_df.loc['is_touch_screen', 'Frequency Ratio'], 2)
+display_size_ratio = round(freq_ratio_df.loc['display_size', 'Frequency Ratio'], 2)
+resolution_width_ratio = round(freq_ratio_df.loc['resolution_width', 'Frequency Ratio'], 2)
+resolution_height_ratio = round(freq_ratio_df.loc['resolution_height', 'Frequency Ratio'], 2)
+os_ratio = round(freq_ratio_df.loc['OS', 'Frequency Ratio'], 2)
+year_of_warranty_ratio = round(freq_ratio_df.loc['year_of_warranty', 'Frequency Ratio'], 2)
 ```
 
 
@@ -335,15 +347,18 @@ The frequency ratio analysis reveals the distribution dynamics of our dataset's 
 
 - **Brand, Model, Rating, num_cores, and Price:** These features show frequency ratios close to 1, indicating a relatively balanced distribution among the top two categories/values. This balance suggests that no single category/value overwhelmingly dominates these features.
 
-- **Processor_brand and processor_tier:** With ratios of 2.80 and 2.38 respectively, there's a noticeable preference or dominance of one category over another, though not extremely pronounced. It hints at some variation in the data that could be useful for our model.
+- **Processor_brand and processor_tier:** With ratios of `{python} processor_brand_ratio` and `{python} processor_tier_ratio` respectively, there's a noticeable preference or dominance of one category over another, though not extremely pronounced. It hints at some variation in the data that could be useful for our model.
 
-- **Primary_storage_type, secondary_storage_type, OS, and year_of_warranty:** Extremely high ratios (e.g., 37.50 for primary_storage_type and 76.00 for secondary_storage_type) highlight a significant dominance of one category over all others. Such dominance may indicate that these features have a strong, possibly skewed, influence on the dataset.
 
-- **Secondary_storage_capacity:** The highest ratio of 85.50 suggests an overwhelming dominance of one category/value, which might limit the feature's predictive power due to the lack of variability.
+- **Primary_storage_type, secondary_storage_type, OS, and year_of_warranty:** Extremely high ratios (e.g., `{python} primary_storage_type_ratio` for primary_storage_type and `{python} secondary_storage_type_ratio` for secondary_storage_type) highlight a significant dominance of one category over all others. Such dominance may indicate that these features have a strong, possibly skewed, influence on the dataset.
 
-- **Is_touch_screen:** A ratio of 10.95 indicates a predominant category, likely reflecting the technological trends or preferences within the dataset.
+- **Secondary_storage_capacity:** The highest ratio of `{python} secondary_storage_capacity_ratio` suggests an overwhelming dominance of one category/value, which might limit the feature's predictive power due to the lack of variability.
+
+- **Is_touch_screen:** A ratio of `{python} is_touch_screen_ratio` indicates a predominant category, likely reflecting the technological trends or preferences within the dataset.
 
 - **Display_size, resolution_width, and resolution_height:** Moderate ratios suggest some variability, which could be informative for the model, indicating that these features have multiple common values but with a clear preference for one.
+
+
 
 Interpreting these ratios helps us understand the variability and balance within our dataset, guiding us in feature selection and preprocessing. Features with extremely high ratios may require careful consideration, as their predictive power might be compromised by the lack of diversity in their values.
 
