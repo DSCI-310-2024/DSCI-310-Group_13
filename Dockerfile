@@ -22,3 +22,17 @@ RUN conda install imbalanced-learn=0.12.0
 RUN conda install matplotlib=3.8.3
 
 RUN conda install scikit-learn=1.4.1.post1
+
+
+RUN conda install altair_saver==0.5.0 \
+    altair_viewer \
+    vega_datasets \
+    statsmodels==0.13.1 \
+    tabulate==0.8.9 \
+    click \
+    requests \
+    selenium \
+    pillow \
+    ipython==8.0.1 \
+    jupyter \
+    pyyaml
