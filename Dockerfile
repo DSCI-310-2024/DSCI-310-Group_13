@@ -25,7 +25,7 @@ RUN conda install scikit-learn=1.4.1.post1
 
 RUN conda install statsmodels==0.14.1
 
-RUN conda install tabulate==0.8.9
+RUN conda install tabulate==0.9.0
 
 RUN conda install click==8.1.7
 
@@ -37,18 +37,26 @@ RUN conda install make==4.2.1
 
 RUN conda install vl-convert-python==1.3.0
 
-RUN pip3 install quarto==0.1.0
+# RUN pip3 install quarto==0.1.0
 
 USER root
 
-RUN sudo -S \
-    apt-get update && apt-get install -y \
-    make \
-    gdebi
+RUN apt update -y
+
+RUN apt install sudo -y
+
+RUN apt install gdebi -y
+
+# RUN sudo -S \ apt-get install -y \ make \ gdebi
 
 ARG QUARTO_VERSION="1.4.537"
-RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
-RUN gdebi --non-interactive quarto-linux-amd64.deb
+RUN curl -o quarto-1.4.551-linux-arm64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-arm64.deb
+
+RUN gdebi --non-interactive quarto-1.4.551-linux-arm64.deb
+
+RUN apt install -y perl
+
+RUN wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 
 # RUN conda install jupyter
 
