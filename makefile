@@ -1,7 +1,9 @@
 # Makefile
 # An Zhou, Mar 2024
 
-# This driver script completes the analysis of ...
+# This driver script completes the analysis needed in the project report. 
+# This script downloads data from local, clean the data and store the cleaned data sets in DATA.
+# This script produces report in .html and .pdf, renders the figrues needed and stores them in correspondin folders.
 # This script takes no arguments.
 
 # example usage:
