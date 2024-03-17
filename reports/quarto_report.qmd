@@ -175,7 +175,7 @@ This descriptive analysis helps us understand the pricing structure within the d
 
 
 
-# 2. Investigate Data Types
+## 2. Investigate Data Types
 
 The key takeaway from the data types analysis of the `laptops.csv` dataset is the presence of a diverse range of data types, which suggests a mixture of numerical, categorical, and boolean data within the features. Specifically, columns such as `brand`, `Model`, `processor_brand`, `processor_tier`, `gpu_brand`, `gpu_type`, `OS`, and `year_of_warranty` are of object type, likely indicating categorical data. 
 
@@ -184,7 +184,7 @@ Numerical columns like `Rating`, `num_cores`, `num_threads`, `ram_memory`, `prim
 The boolean column `is_touch_screen` indicates binary data, which can be easily encoded as 0s and 1s for modeling purposes. 
 
 
-# 3. Investigate data
+## 3. Investigate data
 
 ```{python}
 #| echo: false
@@ -225,17 +225,17 @@ This data suggests a diverse range of laptops catering to various needs and budg
 
 --------------------------------------------------------------
 
-# 5. Handle missing values
+## 5. Handle missing values
 
 Luckily, there are no missing values in our data!
 
 
-# 6. outliers
+## 6. Outliers
 
 ![Outliers](../visualisations/Graph4.png){#fig-outliers width=50%}
 
 
-# 7. Correlation analysis
+## 7. Correlation analysis
 
 ![Correlation matrix](../visualisations/Graph4.png){#fig-correlation-matrix width=50%}
 
