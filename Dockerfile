@@ -51,12 +51,15 @@ RUN apt install gdebi -y
 
 RUN sudo dpkg --add-architecture arm64
 
+
 ARG QUARTO_VERSION="1.4.537"
 RUN curl -o quarto-1.4.551-linux-arm64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-arm64.deb
 
 RUN gdebi --non-interactive quarto-1.4.551-linux-arm64.deb
 
 RUN apt install -y perl
+
+# RUN tlmgr update --self
 
 RUN wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 
