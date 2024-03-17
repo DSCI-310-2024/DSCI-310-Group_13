@@ -23,15 +23,21 @@ RUN conda install matplotlib=3.8.3
 
 RUN conda install scikit-learn=1.4.1.post1
 
-
 RUN conda install statsmodels==0.14.1
 
 RUN conda install tabulate==0.8.9
+
 RUN conda install click==8.1.7
+
 RUN conda install pillow==10.2.0
+
 RUN conda install ipython==8.20.0
+
 RUN conda install make==4.2.1
+
 RUN conda install altair_saver=0.1.0
+
+RUN pip3 install quarto==0.1.0
 
 # RUN conda install jupyter
 

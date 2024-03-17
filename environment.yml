@@ -1,7 +1,8 @@
-name: project_env
+name: project_env_long
 channels:
   - conda-forge
   - defaults
+  - anaconda
 dependencies:
   - altair=5.2.0=pyhd8ed1ab_0
   - anyio=4.3.0=pyhd8ed1ab_0
