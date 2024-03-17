@@ -35,9 +35,20 @@ RUN conda install ipython==8.20.0
 
 RUN conda install make==4.2.1
 
-RUN conda install altair_saver=0.1.0
+RUN conda install vl-convert-python==1.3.0
 
 RUN pip3 install quarto==0.1.0
+
+USER root
+
+RUN sudo -S \
+    apt-get update && apt-get install -y \
+    make \
+    gdebi
+
+ARG QUARTO_VERSION="1.4.537"
+RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
+RUN gdebi --non-interactive quarto-linux-amd64.deb
 
 # RUN conda install jupyter
 
