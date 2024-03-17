@@ -49,6 +49,8 @@ RUN apt install gdebi -y
 
 # RUN sudo -S \ apt-get install -y \ make \ gdebi
 
+RUN sudo dpkg --add-architecture arm64
+
 ARG QUARTO_VERSION="1.4.537"
 RUN curl -o quarto-1.4.551-linux-arm64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-arm64.deb
 
