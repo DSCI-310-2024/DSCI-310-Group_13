@@ -118,12 +118,14 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a></li>
   </ul></li>
-  <li><a href="#explanatory-data-analysis" id="toc-explanatory-data-analysis" class="nav-link" data-scroll-target="#explanatory-data-analysis">Explanatory data analysis</a></li>
+  <li><a href="#explanatory-data-analysis" id="toc-explanatory-data-analysis" class="nav-link" data-scroll-target="#explanatory-data-analysis">Explanatory data analysis</a>
+  <ul class="collapse">
   <li><a href="#investigate-data-types" id="toc-investigate-data-types" class="nav-link" data-scroll-target="#investigate-data-types">2. Investigate Data Types</a></li>
   <li><a href="#investigate-data" id="toc-investigate-data" class="nav-link" data-scroll-target="#investigate-data">3. Investigate data</a></li>
   <li><a href="#handle-missing-values" id="toc-handle-missing-values" class="nav-link" data-scroll-target="#handle-missing-values">5. Handle missing values</a></li>
-  <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">6. outliers</a></li>
+  <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">6. Outliers</a></li>
   <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">7. Correlation analysis</a></li>
+  </ul></li>
   <li><a href="#linear-regression-model-using-ordinary-least-squares-ols-estimation" id="toc-linear-regression-model-using-ordinary-least-squares-ols-estimation" class="nav-link" data-scroll-target="#linear-regression-model-using-ordinary-least-squares-ols-estimation">Linear regression model using ordinary least squares (OLS) estimation</a>
   <ul class="collapse">
   <li><a href="#split-dataset" id="toc-split-dataset" class="nav-link" data-scroll-target="#split-dataset">1. Split dataset</a></li>
@@ -349,15 +351,14 @@ Table&nbsp;1: Descriptive statistics of laptop prices in USD.
 <li><p><strong>Quartiles</strong>: The 25th percentile (Q1) of 523 USD and the 75th percentile (Q3) of 1,070.50 USD provide additional reference points for understanding the distribution of prices. Specifically, 25% of laptops are priced at or below 523 USD, and 75% are priced at or below 1,070.50 USD. The median (50th percentile) price of 742 USD indicates that half of the laptops are priced below this amount.</p></li>
 </ul>
 <p>This descriptive analysis helps us understand the pricing structure within the dataset, which can be instrumental for both consumers looking to purchase laptops within certain price ranges and sellers aiming to price their laptops competitively in the market.</p>
-</section>
-<section id="investigate-data-types" class="level1">
-<h1>2. Investigate Data Types</h1>
+<section id="investigate-data-types" class="level2">
+<h2 class="anchored" data-anchor-id="investigate-data-types">2. Investigate Data Types</h2>
 <p>The key takeaway from the data types analysis of the <code>laptops.csv</code> dataset is the presence of a diverse range of data types, which suggests a mixture of numerical, categorical, and boolean data within the features. Specifically, columns such as <code>brand</code>, <code>Model</code>, <code>processor_brand</code>, <code>processor_tier</code>, <code>gpu_brand</code>, <code>gpu_type</code>, <code>OS</code>, and <code>year_of_warranty</code> are of object type, likely indicating categorical data.</p>
 <p>Numerical columns like <code>Rating</code>, <code>num_cores</code>, <code>num_threads</code>, <code>ram_memory</code>, <code>primary_storage_capacity</code>, <code>secondary_storage_capacity</code>, <code>display_size</code>, <code>resolution_width</code>, <code>resolution_height</code>, and the target variable <code>Price</code> are either of type int64 or float64, representing quantitative data that can be used directly in mathematical computations and statistical analyses.</p>
 <p>The boolean column <code>is_touch_screen</code> indicates binary data, which can be easily encoded as 0s and 1s for modeling purposes.</p>
 </section>
-<section id="investigate-data" class="level1">
-<h1>3. Investigate data</h1>
+<section id="investigate-data" class="level2">
+<h2 class="anchored" data-anchor-id="investigate-data">3. Investigate data</h2>
 <div id="tbl-laptop-specs" class="cell quarto-float anchored" data-execution_count="4">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-laptop-specs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -432,12 +433,12 @@ Figure&nbsp;5: Distribution of all variables
 </div>
 <hr>
 </section>
-<section id="handle-missing-values" class="level1">
-<h1>5. Handle missing values</h1>
+<section id="handle-missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="handle-missing-values">5. Handle missing values</h2>
 <p>Luckily, there are no missing values in our data!</p>
 </section>
-<section id="outliers" class="level1">
-<h1>6. outliers</h1>
+<section id="outliers" class="level2">
+<h2 class="anchored" data-anchor-id="outliers">6. Outliers</h2>
 <div id="fig-outliers" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -449,8 +450,8 @@ Figure&nbsp;6: Outliers
 </figure>
 </div>
 </section>
-<section id="correlation-analysis" class="level1">
-<h1>7. Correlation analysis</h1>
+<section id="correlation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-analysis">7. Correlation analysis</h2>
 <div id="fig-correlation-matrix" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-correlation-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -488,6 +489,7 @@ Figure&nbsp;7: Correlation matrix
 <li><p><strong>Price</strong>: The price has a perfect negative correlation with itself.</p></li>
 </ul>
 </section>
+</section>
 <section id="linear-regression-model-using-ordinary-least-squares-ols-estimation" class="level1">
 <h1>Linear regression model using ordinary least squares (OLS) estimation</h1>
 <section id="split-dataset" class="level2">
@@ -496,7 +498,7 @@ Figure&nbsp;7: Correlation matrix
 <p>We employ a randomized approach to create these subsets, aiming for a 70:30 split between training and testing data. This means 70% of our data will be used to train the model, allowing it to learn and adapt to the patterns within our dataset. The remaining 30% serves as the test set, which will be used to evaluate the model’s predictive accuracy and generalizability to new data.</p>
 <p>To ensure the reproducibility of our results and maintain consistency in model evaluation, we set a fixed seed for the random number generator. This approach guarantees that the selection of data for the training and testing sets is both random and unbiased, providing a solid foundation for our subsequent analysis.</p>
 <p>In our ongoing analysis, we turn our attention to understanding the distribution of categorical variables within our training dataset. A key step in this process involves calculating the frequency ratio for each feature. The frequency ratio is defined as the count of the most frequent value divided by the count of the second most frequent value for each variable. This metric provides insight into the balance or imbalance of categorical data, highlighting variables that may have a dominant category. Such insights are invaluable for feature selection and preprocessing steps, as they can influence the model’s ability to learn from the data effectively.</p>
-<div id="7e25aa73" class="cell" data-execution_count="5">
+<div id="356bb5bc" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>|                            |   Frequency Ratio |
 |:---------------------------|------------------:|
@@ -534,7 +536,7 @@ Figure&nbsp;7: Correlation matrix
 <li><p><strong>Display_size, resolution_width, and resolution_height:</strong> Moderate ratios suggest some variability, which could be informative for the model, indicating that these features have multiple common values but with a clear preference for one.</p></li>
 </ul>
 <p>Interpreting these ratios helps us understand the variability and balance within our dataset, guiding us in feature selection and preprocessing. Features with extremely high ratios may require careful consideration, as their predictive power might be compromised by the lack of diversity in their values.</p>
-<div id="774c5e8b" class="cell" data-execution_count="6">
+<div id="c8235c36" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>                                Variance
 index                       8.354801e+04
@@ -569,7 +571,7 @@ resolution_height           6.681680e+04</code></pre>
 </section>
 <section id="ols-with-only-numeric-variables" class="level2">
 <h2 class="anchored" data-anchor-id="ols-with-only-numeric-variables">OLS with only numeric variables</h2>
-<div id="5575843d" class="cell" data-execution_count="7">
+<div id="3913a003" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -577,7 +579,7 @@ Dep. Variable:                  Price   R-squared:                       0.746
 Model:                            OLS   Adj. R-squared:                  0.743
 Method:                 Least Squares   F-statistic:                     200.6
 Date:                Sun, 17 Mar 2024   Prob (F-statistic):          1.36e-195
-Time:                        03:55:34   Log-Likelihood:                -8094.5
+Time:                        04:45:24   Log-Likelihood:                -8094.5
 No. Observations:                 693   AIC:                         1.621e+04
 Df Residuals:                     682   BIC:                         1.626e+04
 Df Model:                          10                                         
@@ -655,7 +657,7 @@ strong multicollinearity or other numerical problems.</code></pre>
 <h2 class="anchored" data-anchor-id="model-choice">Model choice</h2>
 <section id="model-1-with-only-numerical-variables" class="level3">
 <h3 class="anchored" data-anchor-id="model-1-with-only-numerical-variables">Model 1 with only numerical variables</h3>
-<div id="a70c1da5" class="cell" data-execution_count="8">
+<div id="6294a1ea" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -663,7 +665,7 @@ Dep. Variable:                  Price   R-squared:                       0.746
 Model:                            OLS   Adj. R-squared:                  0.743
 Method:                 Least Squares   F-statistic:                     200.6
 Date:                Sun, 17 Mar 2024   Prob (F-statistic):          1.36e-195
-Time:                        03:55:34   Log-Likelihood:                -8094.5
+Time:                        04:45:24   Log-Likelihood:                -8094.5
 No. Observations:                 693   AIC:                         1.621e+04
 Df Residuals:                     682   BIC:                         1.626e+04
 Df Model:                          10                                         
