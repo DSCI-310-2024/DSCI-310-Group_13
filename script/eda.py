@@ -12,9 +12,9 @@ import seaborn as sns
 @click.argument('figure_prefix')
 def eda(input_file, figure_prefix):
     # Ensure the Visualizations directory exists
-    visualizations_dir = 'Visualizations'  # Directly in the project root
-    if not os.path.exists(visualizations_dir):
-        os.makedirs(visualizations_dir)
+    visualisations_dir = 'Visualisations'  # Directly in the project root
+    if not os.path.exists(visualisations_dir):
+        os.makedirs(visualisations_dir)
 
     # Read the data
     df = pd.read_csv(input_file)
