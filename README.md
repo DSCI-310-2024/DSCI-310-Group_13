@@ -27,10 +27,11 @@ foo@bar:~$ docker build --tag sample_name .
 and
 
 ```console
-foo@bar:~$ docker run -it --rm sample_name
+foo@bar:~$ docker run --rm -it -v /$(pwd):/home/my_mounted_volume sample_name
 ```
+This command will ensure you mount the docker container to the directory you are within in order for code to be ran.
 
-Note: Ensure that you change sample_name to a desired name and ensure that when you run the container you include -rm in order for container to be ephemeral.
+Note: Ensure that you change sample_name to a desired name and ensure that when you run the container you include -rm in order for container to be ephemeral. 
 
 ## List of Dependencies
 
