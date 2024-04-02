@@ -6,6 +6,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 # import altair_saver
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from src.save_plot import save_plot
 
 @click.command()
 @click.argument('input_file')
@@ -15,6 +19,8 @@ def eda(input_file, figure_prefix):
     visualisations_dir = 'Visualisations'  # Directly in the project root
     if not os.path.exists(visualisations_dir):
         os.makedirs(visualisations_dir)
+
+
 
     # Read the data
     df = pd.read_csv(input_file)
@@ -29,14 +35,24 @@ def eda(input_file, figure_prefix):
     plt.ylabel('Count')
     plt.title('Brand distribution')
     plt.xticks(rotation=45)
+
+
     # Ensure the Visualisations directory exists
     visualisations_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'Visualisations')
     os.makedirs(visualisations_dir, exist_ok=True)
 
+
+
+
+
     # Save the plot with an absolute path
-    output_path = os.path.join(visualisations_dir, f'{figure_prefix}_brand_distribution.png')
-    plt.savefig(output_path)
+    output_path = os.path.join(visualisations_dir)
+    plt_obj = plt.gcf()
+
+    # CHANGE 1
+    save_plot(plt_obj, f'{figure_prefix}_brand_distribution.png', output_path)
     plt.close()
+    print("success!\n")
 
 
     #second graph: price distributio plot
@@ -55,17 +71,25 @@ def eda(input_file, figure_prefix):
         width=600,
         height=400
     )
-    output_path = os.path.join(visualisations_dir, f'{figure_prefix}_price_distribution.png')
-    chart.save(output_path,scale_factor=2.0)
+    output_path = os.path.join(visualisations_dir)
+
+    save_plot(chart, f'{figure_prefix}_price_distribution.png', output_path)
+    print("success! \n")
+
+    # chart.save(output_path,scale_factor=2.0)
 
     #third chart
     plt.figure(figsize=(8,6))
     sns.barplot(data=df, x='processor_brand', y='Price')
     plt.title('Barplot b/w Price and processor_brand')
     # Save the plot with an absolute path
-    output_path = os.path.join(visualisations_dir, f'{figure_prefix}_Barplot_Price_processor_brand.png')
-    plt.savefig(output_path)
+    output_path = os.path.join(visualisations_dir)
+
+    plt_obj = plt.gcf()
+
+    save_plot(plt_obj, f'{figure_prefix}_Barplot_Price_processor_brand.png', output_path)
     plt.close()
+    print("success! \n")
 
     #fourth plot
     plt.figure(figsize=(13,7))
@@ -76,9 +100,13 @@ def eda(input_file, figure_prefix):
     plt.ylabel('Count')
     plt.title('Processor types')
     # Save the plot with an absolute path
-    output_path = os.path.join(visualisations_dir, f'{figure_prefix}_processor_distribution.png')
-    plt.savefig(output_path)
+    output_path = os.path.join(visualisations_dir, )
+
+    plt_obj = plt.gcf()
+
+    save_plot(plt_obj, f'{figure_prefix}_processor_distribution.png', output_path)
     plt.close()
+    print("success! \n")
 
     #fifth plot
 
@@ -107,8 +135,11 @@ def eda(input_file, figure_prefix):
         for i in range(0, len(charts), 3)
     ])
 
-    output_path = os.path.join(visualisations_dir, f'{figure_prefix}_grid_1.png')
-    chart_grid.save(output_path,scale_factor=2.0)
+    output_path = os.path.join(visualisations_dir)
+
+
+    save_plot(chart_grid, f'{figure_prefix}_grid_1.png', output_path)
+    print("success! \n")
 
     #sixth plot
         
@@ -167,8 +198,11 @@ def eda(input_file, figure_prefix):
         titleFontSize=12,
         labelFontSize=10
     )
-    output_path = os.path.join(visualisations_dir, f'{figure_prefix}_grid_2.png')
-    chart_grid.save(output_path,scale_factor=2.0)
+    output_path = os.path.join(visualisations_dir)
+
+    save_plot(chart_grid,  f'{figure_prefix}_grid_2.png', output_path)
+    print("success! \n")
+
 
 
 if __name__ == '__main__':
