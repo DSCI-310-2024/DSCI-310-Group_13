@@ -12,9 +12,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from function_data_cleaning import clean_and_save_data
 
 
-#sample valid paths
+#sample valid/invalid paths
 input_path = 'DATA/raw/test.csv'
-output_path = 'DATA'
+output_path = 'DATA/clean'
+invalid_path= 'errorr'
+invalid_type = 2
 # Sample data creation
 df = pd.DataFrame({
     'A': [1, 2, np.nan, 4, 10, 6, 7, 8, 900],
@@ -23,8 +25,6 @@ df = pd.DataFrame({
 })
 df.to_csv(input_path, index=False)
 
-
-empty_file_path = os.path.join(output_path, 'empty.csv')
 
 # Ensure the directory exists
 if not os.path.exists(output_path):
@@ -42,6 +42,8 @@ def test_clean_and_save():
     # Perform your assertions here
     assert not df_train.empty, "Training DataFrame should not be empty"
     assert not df_test.empty, "Test DataFrame should not be empty"
+    assert os.path.exists(f"{output_path }_train.csv")
+    assert os.path.exists(f"{output_path }_test.csv")
 
     os.remove(f"{output_path }_train.csv")
     os.remove(f"{output_path }_test.csv")
@@ -85,3 +87,4 @@ def test_missing_data_handle():
 
     os.remove(f"{output_path }_train.csv")
     os.remove(f"{output_path }_test.csv")
+
