@@ -24,6 +24,7 @@ RUN conda install matplotlib=3.8.3
 RUN conda install scikit-learn=1.4.1.post1
 
 
+
 RUN conda install altair_saver==0.5.0 \
     altair_viewer \
     vega_datasets \

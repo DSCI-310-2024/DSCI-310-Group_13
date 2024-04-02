@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.543">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Anna Czarnocka, An Zhou, Yuechang Liu, Daniel Lima">
+
+<title>DSCI 310 Group Project: Laptop Price Predictor Model</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="quarto_report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="quarto_report_files/libs/quarto-html/quarto.js"></script>
+<script src="quarto_report_files/libs/quarto-html/popper.min.js"></script>
+<script src="quarto_report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="quarto_report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="quarto_report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="quarto_report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="quarto_report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="quarto_report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="quarto_report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods-results" id="toc-methods-results" class="nav-link" data-scroll-target="#methods-results">Methods &amp; Results</a>
+  <ul class="collapse">
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a></li>
+  </ul></li>
+  <li><a href="#explanatory-data-analysis" id="toc-explanatory-data-analysis" class="nav-link" data-scroll-target="#explanatory-data-analysis">Explanatory data analysis</a></li>
+  <li><a href="#investigate-data-types" id="toc-investigate-data-types" class="nav-link" data-scroll-target="#investigate-data-types">2. Investigate Data Types</a></li>
+  <li><a href="#investigate-data" id="toc-investigate-data" class="nav-link" data-scroll-target="#investigate-data">3. Investigate data</a></li>
+  <li><a href="#handle-missing-values" id="toc-handle-missing-values" class="nav-link" data-scroll-target="#handle-missing-values">5. Handle missing values</a></li>
+  <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">6. outliers</a></li>
+  <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">7. Correlation analysis</a></li>
+  <li><a href="#linear-regression-model-using-ordinary-least-squares-ols-estimation" id="toc-linear-regression-model-using-ordinary-least-squares-ols-estimation" class="nav-link" data-scroll-target="#linear-regression-model-using-ordinary-least-squares-ols-estimation">Linear regression model using ordinary least squares (OLS) estimation</a>
+  <ul class="collapse">
+  <li><a href="#split-dataset" id="toc-split-dataset" class="nav-link" data-scroll-target="#split-dataset">1. Split dataset</a></li>
+  <li><a href="#creating-an-ols-regression-model" id="toc-creating-an-ols-regression-model" class="nav-link" data-scroll-target="#creating-an-ols-regression-model">2. Creating an OLS Regression Model</a></li>
+  <li><a href="#ols-with-only-numeric-variables" id="toc-ols-with-only-numeric-variables" class="nav-link" data-scroll-target="#ols-with-only-numeric-variables">OLS with only numeric variables</a></li>
+  <li><a href="#results-discussion" id="toc-results-discussion" class="nav-link" data-scroll-target="#results-discussion">Results discussion</a></li>
+  <li><a href="#creating-an-ols-model-with-all-variables" id="toc-creating-an-ols-model-with-all-variables" class="nav-link" data-scroll-target="#creating-an-ols-model-with-all-variables">Creating an OLS model with all variables</a></li>
+  <li><a href="#model-choice" id="toc-model-choice" class="nav-link" data-scroll-target="#model-choice">Model choice</a></li>
+  </ul></li>
+  <li><a href="#results-discussion-1" id="toc-results-discussion-1" class="nav-link" data-scroll-target="#results-discussion-1">Results discussion</a>
+  <ul class="collapse">
+  <li><a href="#results-description-and-analysis" id="toc-results-description-and-analysis" class="nav-link" data-scroll-target="#results-description-and-analysis">Results Description and Analysis</a></li>
+  <li><a href="#model-performance" id="toc-model-performance" class="nav-link" data-scroll-target="#model-performance">Model Performance</a></li>
+  <li><a href="#coefficients-interpretation" id="toc-coefficients-interpretation" class="nav-link" data-scroll-target="#coefficients-interpretation">Coefficients Interpretation</a></li>
+  <li><a href="#model-fit-statistics" id="toc-model-fit-statistics" class="nav-link" data-scroll-target="#model-fit-statistics">Model Fit Statistics</a></li>
+  <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1">Conclusion</a></li>
+  </ul></li>
+  <li><a href="#impacts" id="toc-impacts" class="nav-link" data-scroll-target="#impacts">Impacts</a></li>
+  <li><a href="#further-studies" id="toc-further-studies" class="nav-link" data-scroll-target="#further-studies">Further studies</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="../quarto_report.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">DSCI 310 Group Project: Laptop Price Predictor Model</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Anna Czarnocka, An Zhou, Yuechang Liu, Daniel Lima </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>Our project aims to answer the question “How can we predict determinants of the laptop market price?”. We used publically available <a href="https://www.kaggle.com/datasets/aniket1505/laptop-dataset-2023">Laptop Dataset(2024)</a>. We performed a robust data analysis in Python, spanning from importing data to sharing insights, prioritizing the creation of workflows that are both replicable and reliable. We used the Linear regression method to construct our predictive model. Our results are that the price can be predicted by building a and training a model using variables such present in the data such as: Rating, num_cores, num_threads, ram_memory, primary_storage_capacity, secondary_storage_capacity, is_touch_screen, display_size, resolution_width and resolution_height.</p>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this digitalized world today, laptops are one of the most demanding digital products. According to Grand View Research, the global laptop market was valued at $194.25 billion in 2022 and is expected to grow in the foreseeable future (Afzal, 2023). This market amount is created by laptops that vary in price on a significant range from less than two hundred to a few thousand dollars. However, the prices of laptops are surely not unpredictable. Here in this project, we answer the question: how can we predict the laptop market price by the appropriate determinants?</p>
+<p>This question is important because it helps customers to understand the factors behind the pricing of laptops which helps them to make reasonable decisions while choosing a laptop. Also, the result of this research benefits laptop producers and sellers in price-making strategies. This research lets laptop producers have a better picture of laptops with what types of features should be priced higher on the market. We try to approach this question by fitting a KNN regression model on the dataset “laptop 2024” (Kumar, 2024). The dataset that our research is based on is a public dataset on Kaggle uploaded by Aniket Kumar. It collects data from 991 unique laptops with 22 features. All information is updated to January 14, 2024.</p>
+</section>
+<section id="methods-results" class="level1">
+<h1>Methods &amp; Results</h1>
+<section id="analysis" class="level2">
+<h2 class="anchored" data-anchor-id="analysis">Analysis</h2>
+<section id="research-project-methodology-predicting-laptop-prices-through-feature-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="research-project-methodology-predicting-laptop-prices-through-feature-analysis">Research Project Methodology: Predicting Laptop Prices through Feature Analysis</h3>
+<section id="objective" class="level4">
+<h4 class="anchored" data-anchor-id="objective">Objective</h4>
+<p>The aim of this project is to develop a predictive model that can estimate the price of laptops based on various product features. Accurate estimation of the price is crucial for all laptop users, both for the professionals and amators, that are planning to buy new laptops, as well as for the sellers and the laptop mrket industry, as it helps identify potential importance of each of the feature and determine appropriate buying strategies. This model aims to serve various stakeholders in the laptop market, including potential buyers seeking to make informed purchasing decisions, sellers aiming to strategize their pricing, and industry analysts interested in understanding the impact of different laptop features on their market value. The research specifically seeks to identify the determinants of laptop prices, providing insights into which attributes significantly influence cost in the competitive laptop market.</p>
+<p>The dataset provided for this project consists of a large number of observations from both a training sample and a test sample. Each observation includes information such as the laptop’s brand, model, price, rating, processor details, number of cores and threads, ram memory, primary storage type, capcity and many others.</p>
+</section>
+<section id="dataset-overview" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-overview">Dataset Overview</h4>
+<p>The core of this research is based on a meticulously curated dataset titled <a href="(https://www.kaggle.com/datasets/aniket1505/laptop-dataset-2023?resource=download)">“Laptop Dataset (2024)”</a> downloaded from Kaggle which encompasses a rich collection of 991 unique laptop entries extracted from the Smartprix website. This dataset has been carefully cleaned and updated as of January 14, 2024, ensuring its reliability for in-depth analysis. It features 22 distinct attributes for each laptop, including but not limited to:</p>
+<ul>
+<li><strong>Brand and Model</strong>: Identifying the manufacturer and specific model of the laptop.</li>
+<li><strong>Price</strong>: Listed in Indian Rupees, providing a direct measure of market value.</li>
+<li><strong>Processor Specifications</strong>: Including brand, tier, number of cores, and threads.</li>
+<li><strong>Memory and Storage</strong>: Details on RAM, primary and secondary storage types and capacities.</li>
+<li><strong>GPU Details</strong>: Information on the brand and type of graphics processing unit.</li>
+<li><strong>Display Characteristics</strong>: Screen size, resolution, and touch screen functionality.</li>
+<li><strong>Operating System</strong>: The installed OS.</li>
+<li><strong>Warranty</strong>: The duration of the manufacturer’s warranty.</li>
+</ul>
+</section>
+<section id="methodology" class="level4">
+<h4 class="anchored" data-anchor-id="methodology">Methodology</h4>
+<p>To achieve the project’s goal, the methodology will encompass several key stages:</p>
+<ol type="1">
+<li><p>Initial steps of data preprocessing will include cleaning the data for inconsistencies, handling missing values, and encoding categorical variables to prepare the dataset for modeling.</p></li>
+<li><p>The stage of explanatory data analysis (EDA) involves examining the dataset to understand the distribution of key features, identify outliers, and uncover potential relationships between variables.</p></li>
+<li><p>Based on insights from EDA, new features may be engineered to better capture the influence of certain attributes on laptop prices. This could include interaction terms or derived features like performance-to-price ratios.</p></li>
+<li><p>A variety of machine learning models, including linear regression, decision trees, and ensemble methods like random forest and gradient boosting, will be evaluated to determine the most effective approach for price prediction. Model selection will be based on cross-validation performance metrics such as mean squared error (MSE).</p></li>
+<li><p>The selected model will be rigorously tested using a hold-out test sample to assess its generalization ability and accuracy in predicting laptop prices.</p></li>
+<li><p>Once the model is finalized, an analysis of feature importance will be conducted to identify which laptop characteristics are most predictive of price. This will address the research question by highlighting the key determinants of laptop pricing.</p></li>
+</ol>
+</section>
+<section id="expected-outcomes" class="level4">
+<h4 class="anchored" data-anchor-id="expected-outcomes">Expected Outcomes</h4>
+<p>The culmination of this research project is anticipated to yield a robust model that can predict laptop prices with high accuracy, offering valuable insights into the factors that most significantly impact laptop market values. Through this analysis, stakeholders in the laptop industry will be better equipped to understand pricing dynamics, facilitating more informed decision-making processes for both consumers and sellers. Additionally, the project aims to contribute to the academic and practical understanding of price determination in technology markets, potentially guiding future research and development strategies within the laptop industry.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="explanatory-data-analysis" class="level1">
+<h1>Explanatory data analysis</h1>
+<p>The dataset, titled “Laptop Dataset (2024),” encompasses a meticulously curated collection of 991 unique laptop entries, sourced from the Smartprix website. It has been updated as of January 14, 2024, and provides a comprehensive overview of various laptop features, making it an invaluable resource for developing price prediction models and recommendation systems. This dataset includes a wide array of attributes for each laptop, offering insights into the intricate dynamics of laptop pricing and consumer preferences. The features captured in the dataset are as follows:</p>
+<ul>
+<li><code>Brand</code>: The name of the laptop brand.</li>
+<li><code>Model</code>: The specific model or series of the laptop.</li>
+<li><code>Price</code>: The price of the laptop in Indian rupees.</li>
+<li><code>Rating</code>: The rating assigned to each laptop based on its specifications.</li>
+<li><code>Processor_brand</code>: The brand of the processor used in the laptop.</li>
+<li><code>Processor_tier</code>: The performance tier or category of the processor.</li>
+<li><code>Number_of_Cores</code>: The number of processing cores in the processor.</li>
+<li><code>Number_of_Threads</code>: The number of threads supported by the processor.</li>
+<li><code>Ram_memory</code>: The amount of RAM used in the laptop.</li>
+<li><code>Primary_storage_type</code>: The type of primary storage (e.g., HDD, SSD).</li>
+<li><code>Primary_storage_capacity</code>: The capacity of the primary storage in the laptop.</li>
+<li><code>Secondary_storage_type</code>: The type of secondary storage, if available.</li>
+<li><code>Secondary_storage_capacity</code>: The capacity of the secondary storage in the laptop.</li>
+<li><code>GPU_brand</code>: The brand of the graphics processing unit (GPU).</li>
+<li><code>GPU_type</code>: The type of the GPU.</li>
+<li><code>Is_Touch_screen</code>: Indicates whether the laptop has a touch screen feature.</li>
+<li><code>Display_size</code>: The size of the laptop display in inches.</li>
+<li><code>Resolution_width</code>: The width resolution of the display.</li>
+<li><code>Resolution_height</code>: The height resolution of the display.</li>
+<li><code>OS</code>: The operating system installed on the laptop.</li>
+<li><code>Year_of_warranty</code>: The duration of the warranty provided for the laptop, usually in years.</li>
+</ul>
+<p>This dataset serves as a solid foundation for exploring laptop pricing dynamics and consumer preferences, equipped with a rich set of features for in-depth analysis. It consists of a total of 991 observations, each detailing a unique laptop configuration to assist in the development of accurate price prediction models and effective recommendation systems.</p>
+<div id="fig-distribution-of-laptop-prices" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-of-laptop-prices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph1.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-of-laptop-prices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Distribution of laptop prices.
+</figcaption>
+</figure>
+</div>
+<p>The key takeaway from <a href="#fig-distribution-of-laptop-prices" class="quarto-xref">Figure&nbsp;1</a> analyzing the distribution of laptop prices from is that there is a clear skew towards lower-priced models. The majority of laptops are clustered in the lower price range, with a significant drop in frequency as prices increase. This suggests that more affordable laptops are far more common, or at least more commonly listed on the Smartprix website from which this data was sourced.</p>
+<p>The prevalence of lower-priced laptops could indicate a stronger market demand in this price segment, possibly reflecting the purchasing power of the consumer base or the competitive pricing strategies of manufacturers. For predictive modeling, this skewness towards lower prices could influence the model’s accuracy, potentially leading it to be more reliable at predicting prices for lower-priced laptops than for higher-priced ones.</p>
+<p>Additionally, the tapering off of frequency at higher price points may point to a smaller niche market for premium laptops. For businesses and retailers, this distribution could inform inventory and marketing strategies, emphasizing the broad appeal of budget-friendly options. In the context of price prediction, care must be taken to ensure that the model does not undervalue the unique features and qualities that might justify the higher prices of less common, premium models. …</p>
+<div class="cell" data-execution_count="3">
+<div id="tbl-laptop-prices" class="cell quarto-float anchored" data-execution_count="3">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-laptop-prices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Descriptive statistics of laptop prices in USD.
+</figcaption>
+<div aria-describedby="tbl-laptop-prices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Statistic</th>
+<th data-quarto-table-cell-role="th">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>count</td>
+<td>991.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>mean</td>
+<td>77266.504541</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>std</td>
+<td>57384.910269</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>min</td>
+<td>9800.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>25%</td>
+<td>43595.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>50%</td>
+<td>61900.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>75%</td>
+<td>89245.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>max</td>
+<td>454490.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The output of the descriptive analysis on the <code>Price</code> column provides valuable insights into the distribution and characteristics of laptop prices in USD in the dataset:</p>
+<ul>
+<li><p><strong>Count</strong>: The count indicates the number of non-missing values in the <code>Price</code> column, which is 991. This suggests that the dataset is complete with no missing values for the price in USD.</p></li>
+<li><p><strong>Mean</strong>: The mean value of 926.45 USD represents the average price of laptops. This provides an estimate of the central tendency of the price distribution, indicating that, on average, laptops in the dataset are priced around this value.</p></li>
+<li><p><strong>Standard Deviation</strong>: The standard deviation of 688.62 USD quantifies the spread or dispersion of the laptop prices around the mean. A larger standard deviation suggests greater variability in the prices, indicating a wide range of prices within the dataset.</p></li>
+<li><p><strong>Minimum and Maximum</strong>: The minimum price value of 117 USD represents the least expensive laptop in the dataset, while the maximum price value of 5,453 USD represents the most expensive laptop. These values highlight the extent of the price range covered in the dataset.</p></li>
+<li><p><strong>Quartiles</strong>: The 25th percentile (Q1) of 523 USD and the 75th percentile (Q3) of 1,070.50 USD provide additional reference points for understanding the distribution of prices. Specifically, 25% of laptops are priced at or below 523 USD, and 75% are priced at or below 1,070.50 USD. The median (50th percentile) price of 742 USD indicates that half of the laptops are priced below this amount.</p></li>
+</ul>
+<p>This descriptive analysis helps us understand the pricing structure within the dataset, which can be instrumental for both consumers looking to purchase laptops within certain price ranges and sellers aiming to price their laptops competitively in the market.</p>
+</section>
+<section id="investigate-data-types" class="level1">
+<h1>2. Investigate Data Types</h1>
+<p>The key takeaway from the data types analysis of the <code>laptops.csv</code> dataset is the presence of a diverse range of data types, which suggests a mixture of numerical, categorical, and boolean data within the features. Specifically, columns such as <code>brand</code>, <code>Model</code>, <code>processor_brand</code>, <code>processor_tier</code>, <code>gpu_brand</code>, <code>gpu_type</code>, <code>OS</code>, and <code>year_of_warranty</code> are of object type, likely indicating categorical data.</p>
+<p>Numerical columns like <code>Rating</code>, <code>num_cores</code>, <code>num_threads</code>, <code>ram_memory</code>, <code>primary_storage_capacity</code>, <code>secondary_storage_capacity</code>, <code>display_size</code>, <code>resolution_width</code>, <code>resolution_height</code>, and the target variable <code>Price</code> are either of type int64 or float64, representing quantitative data that can be used directly in mathematical computations and statistical analyses.</p>
+<p>The boolean column <code>is_touch_screen</code> indicates binary data, which can be easily encoded as 0s and 1s for modeling purposes.</p>
+</section>
+<section id="investigate-data" class="level1">
+<h1>3. Investigate data</h1>
+<div id="tbl-laptop-specs" class="cell quarto-float anchored" data-execution_count="4">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-laptop-specs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Descriptive statistics of laptop specifications and prices in USD.
+</figcaption>
+<div aria-describedby="tbl-laptop-specs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-stdout">
+
+</div>
+</div>
+</figure>
+</div>
+<div id="fig-brand-distribution" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-brand-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph6.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-brand-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Brand distribution
+</figcaption>
+</figure>
+</div>
+<p>The descriptive analysis of the laptop dataset provides insightful information regarding the specifications and price points of laptops:</p>
+<ul>
+<li><p><strong>Rating</strong>: With a mean rating of 63.93 and a standard deviation of 10.19, the laptops in the dataset have a moderate average rating, with a typical range between 53.74 (mean - std) and 74.12 (mean + std). The ratings span from a low of 24 to a high of 89, indicating a wide range of customer satisfaction.</p></li>
+<li><p><strong>Processor Cores and Threads</strong>: The average number of processor cores is 8.13 with a standard deviation of 4.22, suggesting a mix of laptops from standard dual-core to high-performance multi-core systems. Similarly, the number of threads averages at 12.19, ranging widely as indicated by the standard deviation of 5.59, showing that laptops with various multitasking capabilities are represented.</p></li>
+<li><p><strong>RAM Memory</strong>: On average, laptops come with 13.05 GB of RAM, and the standard deviation of 5.59 GB indicates a broad selection from basic to high-end memory configurations.</p></li>
+<li><p><strong>Storage Capacity</strong>: The primary storage capacity averages 610.94 GB, with a large number of laptops having 512 GB, as seen in the 25th, 50th, and 75th percentiles. The secondary storage is not common, with an average close to zero and a maximum of 512 GB.</p></li>
+<li><p><strong>Display Size</strong>: Laptops have an average screen size of 15.17 inches, with a relatively small standard deviation of 0.94 inches, suggesting most laptops fall within the standard size range for consumer notebooks.</p></li>
+<li><p><strong>Resolution</strong>: The average resolution width is 2003.5 pixels with a notable standard deviation of 361.97 pixels, indicating a variety of display resolutions, with the most common being 1920 pixels wide. The average resolution height is 1181.23 pixels, with 1080 pixels being the typical height, suggesting that many laptops in the dataset likely have Full HD displays.</p></li>
+<li><p><strong>Price</strong>: The average price of a laptop is $926.45 USD, with a wide range in prices as demonstrated by the standard deviation of $688.62 USD. The prices range from as low as $117 USD to as high as $5453 USD, indicating a dataset that includes both budget-friendly options and premium models.</p></li>
+</ul>
+<div id="fig-barplot-processor-brand" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barplot-processor-brand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph7.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barplot-processor-brand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Barplot b/w Price and processor_brand
+</figcaption>
+</figure>
+</div>
+<p>This data suggests a diverse range of laptops catering to various needs and budgets, from basic models suitable for everyday tasks to high-end laptops with advanced features. For predictive modeling and market analysis, this variance in features and prices will need to be considered, as it affects both consumer choice and pricing strategies.</p>
+<div id="fig-distribution-numeric" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-numeric-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph2.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-numeric-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Distribution of all numeric variables
+</figcaption>
+</figure>
+</div>
+<div id="fig-distribution-all" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph3.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Distribution of all variables
+</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="handle-missing-values" class="level1">
+<h1>5. Handle missing values</h1>
+<p>Luckily, there are no missing values in our data!</p>
+</section>
+<section id="outliers" class="level1">
+<h1>6. outliers</h1>
+<div id="fig-outliers" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph4.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Outliers
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="correlation-analysis" class="level1">
+<h1>7. Correlation analysis</h1>
+<div id="fig-correlation-matrix" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-correlation-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph4.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlation-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Correlation matrix
+</figcaption>
+</figure>
+</div>
+<p>Positive correlations (strongest at the bottom):</p>
+<ul>
+<li><p><strong>secondary_storage_capacity</strong>: The secondary storage capacity has a weak positive correlation with the price.</p></li>
+<li><p><strong>display_size</strong>: The display size has a moderate positive correlation with the price.</p></li>
+<li><p><strong>resolution_height</strong>: The resolution height has a strong positive correlation with the price.</p></li>
+<li><p><strong>ram_memory</strong>: The RAM memory has a strong positive correlation with the price.</p></li>
+<li><p><strong>primary_storage_capacity</strong>: The primary storage capacity has a strong positive correlation with the price.</p></li>
+<li><p><strong>resolution_width</strong>: The resolution width has a strong positive correlation with the price.</p></li>
+<li><p><strong>Rating</strong>: The rating has a strong positive correlation with the price.</p></li>
+<li><p><strong>num_threads</strong>: The number of threads has a strong positive correlation with the price.</p></li>
+<li><p><strong>num_cores</strong>: The number of cores has a strong positive correlation with the price.</p></li>
+<li><p><strong>Price</strong>: The price has a perfect positive correlation with itself.</p></li>
+</ul>
+<p>Negative correlations (weakest at the top):</p>
+<ul>
+<li><p><strong>secondary_storage_capacity</strong>: The secondary storage capacity has a weak negative correlation with the price.</p></li>
+<li><p><strong>display_size</strong>: The display size has a moderate negative correlation with the price.</p></li>
+<li><p><strong>resolution_height</strong>: The resolution height has a strong negative correlation with the price.</p></li>
+<li><p><strong>ram_memory</strong>: The RAM memory has a strong negative correlation with the price.</p></li>
+<li><p><strong>primary_storage_capacity</strong>: The primary storage capacity has a strong negative correlation with the price.</p></li>
+<li><p><strong>resolution_width</strong>: The resolution width has a strong negative correlation with the price.</p></li>
+<li><p><strong>Rating</strong>: The rating has a strong negative correlation with the price.</p></li>
+<li><p><strong>num_threads</strong>: The number of threads has a strong negative correlation with the price.</p></li>
+<li><p><strong>num_cores</strong>: The number of cores has a strong negative correlation with the price.</p></li>
+<li><p><strong>Price</strong>: The price has a perfect negative correlation with itself.</p></li>
+</ul>
+</section>
+<section id="linear-regression-model-using-ordinary-least-squares-ols-estimation" class="level1">
+<h1>Linear regression model using ordinary least squares (OLS) estimation</h1>
+<section id="split-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="split-dataset">1. Split dataset</h2>
+<p>To prepare the dataset for our regression analysis, a crucial step involves dividing the data into two distinct sets: one for training the model and another for testing its predictions. This procedure is essential for assessing how well our model will perform on unseen data, ensuring both robustness and reliability in our predictive capabilities.</p>
+<p>We employ a randomized approach to create these subsets, aiming for a 70:30 split between training and testing data. This means 70% of our data will be used to train the model, allowing it to learn and adapt to the patterns within our dataset. The remaining 30% serves as the test set, which will be used to evaluate the model’s predictive accuracy and generalizability to new data.</p>
+<p>To ensure the reproducibility of our results and maintain consistency in model evaluation, we set a fixed seed for the random number generator. This approach guarantees that the selection of data for the training and testing sets is both random and unbiased, providing a solid foundation for our subsequent analysis.</p>
+<p>In our ongoing analysis, we turn our attention to understanding the distribution of categorical variables within our training dataset. A key step in this process involves calculating the frequency ratio for each feature. The frequency ratio is defined as the count of the most frequent value divided by the count of the second most frequent value for each variable. This metric provides insight into the balance or imbalance of categorical data, highlighting variables that may have a dominant category. Such insights are invaluable for feature selection and preprocessing steps, as they can influence the model’s ability to learn from the data effectively.</p>
+<div id="8888f0a2" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-stdout">
+<pre><code>|                            |   Frequency Ratio |
+|:---------------------------|------------------:|
+| index                      |           1       |
+| brand                      |           1.11348 |
+| Model                      |           1       |
+| Price                      |           1       |
+| Rating                     |           1.02632 |
+| processor_brand            |           2.79888 |
+| processor_tier             |           2.37864 |
+| num_cores                  |           1.00758 |
+| num_threads                |           1.5974  |
+| ram_memory                 |           1.35401 |
+| primary_storage_type       |          37.5     |
+| primary_storage_capacity   |           3.33333 |
+| secondary_storage_type     |          76       |
+| secondary_storage_capacity |          85.5     |
+| gpu_brand                  |           1.32245 |
+| gpu_type                   |           1.64341 |
+| is_touch_screen            |          10.9483  |
+| display_size               |           2.08671 |
+| resolution_width           |          10.1111  |
+| resolution_height          |           4.46    |
+| OS                         |          34.1579  |
+| year_of_warranty           |          14.3182  |</code></pre>
+</div>
+</div>
+<p>The frequency ratio analysis reveals the distribution dynamics of our dataset’s features. Here’s a breakdown of what these ratios indicate:</p>
+<ul>
+<li><p><strong>Brand, Model, Rating, num_cores, and Price:</strong> These features show frequency ratios close to 1, indicating a relatively balanced distribution among the top two categories/values. This balance suggests that no single category/value overwhelmingly dominates these features.</p></li>
+<li><p><strong>Processor_brand and processor_tier:</strong> With ratios of 2.798882681564246 and 2.378640776699029 respectively, there’s a noticeable preference or dominance of one category over another, though not extremely pronounced. It hints at some variation in the data that could be useful for our model.</p></li>
+<li><p><strong>Primary_storage_type, secondary_storage_type, OS, and year_of_warranty:</strong> Extremely high ratios (e.g., 37.5 for primary_storage_type and 76.0 for secondary_storage_type) highlight a significant dominance of one category over all others. Such dominance may indicate that these features have a strong, possibly skewed, influence on the dataset.</p></li>
+<li><p><strong>Secondary_storage_capacity:</strong> The highest ratio of 85.5 suggests an overwhelming dominance of one category/value, which might limit the feature’s predictive power due to the lack of variability.</p></li>
+<li><p><strong>Is_touch_screen:</strong> A ratio of 10.95 indicates a predominant category, likely reflecting the technological trends or preferences within the dataset.</p></li>
+<li><p><strong>Display_size, resolution_width, and resolution_height:</strong> Moderate ratios suggest some variability, which could be informative for the model, indicating that these features have multiple common values but with a clear preference for one.</p></li>
+</ul>
+<p>Interpreting these ratios helps us understand the variability and balance within our dataset, guiding us in feature selection and preprocessing. Features with extremely high ratios may require careful consideration, as their predictive power might be compromised by the lack of diversity in their values.</p>
+<div id="acba05cf" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-stdout">
+<pre><code>                                Variance
+index                       8.354801e+04
+Price                       3.230427e+09
+Rating                      1.059910e+02
+num_cores                   1.817599e+01
+num_threads                 3.200075e+01
+ram_memory                  3.052570e+01
+primary_storage_capacity    7.081931e+04
+secondary_storage_capacity  7.714443e+02
+display_size                9.114301e-01
+resolution_width            1.240993e+05
+resolution_height           6.681680e+04</code></pre>
+</div>
+</div>
+<p>The variance calculation for our dataset’s numeric features provides valuable insights into the spread and distribution of data across different variables. Here’s an analysis of the variances:</p>
+<ul>
+<li><p><strong>Rating, num_cores, and num_threads:</strong> These features have relatively low to moderate variances (e.g., 105.99 for Rating, 18.18 for num_cores, and 32.00 for num_threads), indicating that the data points tend to cluster around their mean values, but with some degree of spread. These might influence the model depending on how closely these variations correlate with the target variable.</p></li>
+<li><p><strong>Ram_memory and secondary_storage_capacity:</strong> With variances of 30.53 and 771.44 respectively, these features exhibit a moderate level of variability, suggesting a wider distribution of values. Such features can be indicative of different usage patterns or capacities that could impact the model’s predictions.</p></li>
+<li><p><strong>Primary_storage_capacity:</strong> A variance of 70819.31 points to a significant spread in the data, implying diverse storage capacities among the laptops. This variability could be a key factor in predicting the price or other dependent variables.</p></li>
+<li><p><strong>Display_size:</strong> A low variance of 0.91 suggests that the sizes of laptop displays in the dataset are relatively uniform, with slight variations. This limited variability may mean the feature has less predictive value for models focused on aspects heavily influenced by display size.</p></li>
+<li><p><strong>Resolution_width and resolution_height:</strong> Extremely high variances of 124099.25 and 66816.80, respectively, indicate a substantial spread in the resolutions of laptop screens. These variances suggest that laptops vary widely in their display capabilities, which could significantly impact user experience and, consequently, the price or other dependent variables.</p></li>
+<li><p><strong>Price:</strong> The highest variance of 465185.61 in the dataset underscores the wide range in laptop prices. This considerable variability is expected given the diverse features and specifications that can affect a laptop’s cost. It highlights the challenge in predicting price but also indicates that there’s ample information in the dataset to model this variability.</p></li>
+</ul>
+</section>
+<section id="creating-an-ols-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="creating-an-ols-regression-model">2. Creating an OLS Regression Model</h2>
+<p>In our regression analysis, a critical preparatory step involves handling the mix of numeric and categorical variables within our dataset. Regression models require numerical input; hence, categorical variables must be encoded into a numerical format. This encoding process typically involves transforming categorical variables into dummy variables (also known as one-hot encoding), where each category is represented as a new column with binary values (0 or 1).</p>
+<p>Our dataset comprises a variety of data types, including object (categorical), boolean, and numeric types. To facilitate regression analysis, it’s essential to convert non-numeric types into a suitable numerical format. The <code>statsmodels</code> library simplifies this process for categorical variables by allowing us to wrap these variables with <code>C()</code> in our model’s formula. This method automatically generates dummy variables for us, effectively incorporating categorical data into the analysis. While <code>statsmodels</code> is capable of processing boolean variables directly, converting them to integers (0 for False and 1 for True) may enhance consistency in data handling.</p>
+<p>Accordingly, we construct a regression formula that accurately represents our dataset’s structure, ensuring that categorical variables are appropriately treated. By wrapping variables such as ‘brand’, ‘processor_brand’, and others with <code>C()</code>, we seamlessly integrate categorical information into our regression model.</p>
+<p>This approach not only maintains the integrity of our analysis but also leverages the rich information embedded within those categorical variables. Including non-numeric variables in our model, once properly encoded, enriches the model’s capacity to interpret and utilize the dataset’s full spectrum of information effectively.</p>
+</section>
+<section id="ols-with-only-numeric-variables" class="level2">
+<h2 class="anchored" data-anchor-id="ols-with-only-numeric-variables">OLS with only numeric variables</h2>
+<div id="4af5b6ad" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  Price   R-squared:                       0.746
+Model:                            OLS   Adj. R-squared:                  0.743
+Method:                 Least Squares   F-statistic:                     200.6
+Date:                Sat, 16 Mar 2024   Prob (F-statistic):          1.36e-195
+Time:                        15:37:50   Log-Likelihood:                -8094.5
+No. Observations:                 693   AIC:                         1.621e+04
+Df Residuals:                     682   BIC:                         1.626e+04
+Df Model:                          10                                         
+Covariance Type:            nonrobust                                         
+==============================================================================================
+                                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+----------------------------------------------------------------------------------------------
+Intercept                  -2.005e+05    2.1e+04     -9.533      0.000   -2.42e+05   -1.59e+05
+is_touch_screen[T.True]      511.8006   4409.625      0.116      0.908   -8146.270    9169.872
+Rating                      1138.7817    212.928      5.348      0.000     720.708    1556.856
+num_cores                   6366.9841    727.775      8.749      0.000    4938.035    7795.933
+num_threads                -2500.1136    680.380     -3.675      0.000   -3836.004   -1164.223
+ram_memory                  1116.5788    291.144      3.835      0.000     544.932    1688.226
+primary_storage_capacity      42.3236      5.591      7.571      0.000      31.347      53.300
+secondary_storage_capacity   -53.2764     40.617     -1.312      0.190    -133.025      26.473
+display_size                2598.2999   1375.214      1.889      0.059    -101.862    5298.462
+resolution_width              25.9804      5.633      4.612      0.000      14.920      37.041
+resolution_height             44.1043      7.635      5.777      0.000      29.114      59.095
+==============================================================================
+Omnibus:                      399.050   Durbin-Watson:                   1.949
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             5641.516
+Skew:                           2.281   Prob(JB):                         0.00
+Kurtosis:                      16.212   Cond. No.                     4.70e+04
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 4.7e+04. This might indicate that there are
+strong multicollinearity or other numerical problems.</code></pre>
+</div>
+</div>
+</section>
+<section id="results-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="results-discussion">Results discussion</h2>
+<p>The OLS regression results provide significant insights into how various numeric features influence the Price of laptops in our dataset. The model, with an <span class="math inline">\(R^2\)</span> of 0.746, explains approximately 74.6% of the variability in laptop prices, which indicates a strong fit for our model with the selected numeric variables.</p>
+<section id="key-findings" class="level3">
+<h3 class="anchored" data-anchor-id="key-findings">Key Findings</h3>
+<ul>
+<li><p><strong>Rating</strong>: With a coefficient of 13.6645 and p-value &lt; 0.001, Rating significantly affects the price. For each one-point increase in Rating, the Price increases by approximately 13.66 units, holding other variables constant.</p></li>
+<li><p><strong>Number of Cores (<code>num_cores</code>)</strong>: This variable shows a positive relationship with Price (coefficient = 76.4062, p-value &lt; 0.001), suggesting that laptops with more cores are generally more expensive. Each additional core is associated with a 76.41 unit increase in Price.</p></li>
+<li><p><strong>Number of Threads (<code>num_threads</code>)</strong>: Interestingly, num_threads has a negative impact on Price (coefficient = -30.0025, p-value &lt; 0.001). This might indicate that beyond a certain point, additional threads do not add value, or it could reflect a market preference for fewer, more efficient cores.</p></li>
+<li><p><strong>RAM Memory</strong>: As expected, RAM memory has a positive effect on Price (coefficient = 13.4003, p-value &lt; 0.001), highlighting consumers’ willingness to pay more for laptops with higher RAM capacity.</p></li>
+<li><p><strong>Primary Storage Capacity</strong>: This feature also positively influences Price (coefficient = 0.5079, p-value &lt; 0.001), indicating the market’s preference for laptops with larger storage capacities.</p></li>
+<li><p><strong>Secondary Storage Capacity</strong>: Surprisingly, this variable does not significantly affect Price (p-value = 0.190), suggesting that secondary storage might not be a crucial factor for consumers when choosing a laptop.</p></li>
+<li><p><strong>Display Size</strong>: Display size shows a borderline significance (p-value = 0.059), suggesting that larger screens may contribute to higher prices, but this effect is not as robust as other factors.</p></li>
+<li><p><strong>Resolution Width and Height</strong>: Both resolution_width (coefficient = 0.3118) and resolution_height (coefficient = 0.5292) are significant predictors of Price, with p-values &lt; 0.001. This result underscores the importance of screen resolution quality in determining laptop prices.</p></li>
+</ul>
+<p><strong>Non-significant Variables</strong></p>
+<ul>
+<li><strong>Touch Screen (<code>is_touch_screen</code>)</strong>: Interestingly, the touch screen feature is not a significant predictor of laptop Price (p-value = 0.906), suggesting that consumers may not necessarily prefer touch screens, or its impact on Price is overshadowed by other features.</li>
+</ul>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>Our analysis reveals that technical specifications like Rating, core count, RAM memory, storage capacity, and display resolution play significant roles in determining laptop prices. However, features like secondary storage capacity and touch screen functionality do not significantly influence Price within the scope of our model. This information can be invaluable for manufacturers and retailers in pricing strategies and for consumers making informed purchasing decisions.</p>
+</section>
+</section>
+<section id="creating-an-ols-model-with-all-variables" class="level2">
+<h2 class="anchored" data-anchor-id="creating-an-ols-model-with-all-variables">Creating an OLS model with all variables</h2>
+<section id="step-1-convert-boolean-to-numeric" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-convert-boolean-to-numeric">Step 1: Convert Boolean to Numeric</h3>
+<p>Convert the boolean variable is_touch_screen to an integer format.</p>
+</section>
+<section id="step-2-apply-one-hot-encoding-to-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-apply-one-hot-encoding-to-categorical-variables">Step 2: Apply One-Hot Encoding to Categorical Variables</h3>
+</section>
+<section id="step-3-prepare-features-and-target-for-model-fitting" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-prepare-features-and-target-for-model-fitting">Step 3: Prepare Features and Target for Model Fitting</h3>
+</section>
+<section id="step-4-fitting-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-fitting-the-model">Step 4: Fitting the Model</h3>
+</section>
+</section>
+<section id="model-choice" class="level2">
+<h2 class="anchored" data-anchor-id="model-choice">Model choice</h2>
+<section id="model-1-with-only-numerical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="model-1-with-only-numerical-variables">Model 1 with only numerical variables</h3>
+<div id="72e37401" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  Price   R-squared:                       0.746
+Model:                            OLS   Adj. R-squared:                  0.743
+Method:                 Least Squares   F-statistic:                     200.6
+Date:                Sat, 16 Mar 2024   Prob (F-statistic):          1.36e-195
+Time:                        15:37:50   Log-Likelihood:                -8094.5
+No. Observations:                 693   AIC:                         1.621e+04
+Df Residuals:                     682   BIC:                         1.626e+04
+Df Model:                          10                                         
+Covariance Type:            nonrobust                                         
+==============================================================================================
+                                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+----------------------------------------------------------------------------------------------
+Intercept                  -2.005e+05    2.1e+04     -9.533      0.000   -2.42e+05   -1.59e+05
+is_touch_screen[T.True]      511.8006   4409.625      0.116      0.908   -8146.270    9169.872
+Rating                      1138.7817    212.928      5.348      0.000     720.708    1556.856
+num_cores                   6366.9841    727.775      8.749      0.000    4938.035    7795.933
+num_threads                -2500.1136    680.380     -3.675      0.000   -3836.004   -1164.223
+ram_memory                  1116.5788    291.144      3.835      0.000     544.932    1688.226
+primary_storage_capacity      42.3236      5.591      7.571      0.000      31.347      53.300
+secondary_storage_capacity   -53.2764     40.617     -1.312      0.190    -133.025      26.473
+display_size                2598.2999   1375.214      1.889      0.059    -101.862    5298.462
+resolution_width              25.9804      5.633      4.612      0.000      14.920      37.041
+resolution_height             44.1043      7.635      5.777      0.000      29.114      59.095
+==============================================================================
+Omnibus:                      399.050   Durbin-Watson:                   1.949
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             5641.516
+Skew:                           2.281   Prob(JB):                         0.00
+Kurtosis:                      16.212   Cond. No.                     4.70e+04
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 4.7e+04. This might indicate that there are
+strong multicollinearity or other numerical problems.</code></pre>
+</div>
+</div>
+</section>
+<section id="model-2-with-all-variables" class="level3">
+<h3 class="anchored" data-anchor-id="model-2-with-all-variables">Model 2 with all variables</h3>
+</section>
+<section id="choice-decision" class="level3">
+<h3 class="anchored" data-anchor-id="choice-decision">Choice decision</h3>
+<p>Based on the provided summaries, Model 2 is seemingly overfitting the data. It achieves a perfect R-squared value of 1.000, which indicates that the model perfectly predicts the dependent variable based on the independent variables. However, such a high R-squared value often suggests overfitting, where the model learns the noise in the training data rather than the underlying pattern.</p>
+<p>Additionally, the lack of significance testing (indicated by “nan” values in the F-statistic, p-values, and confidence intervals) suggests numerical issues in the model fitting process, possibly due to the high number of features relative to the number of observations.</p>
+<p>On the other hand, Model 1 achieves a relatively lower but still acceptable R-squared value of 0.746, indicating a reasonable level of explanatory power. The F-statistic and associated p-value also suggest the overall significance of the model. However, some coefficients have high p-values, indicating that they may not be statistically significant predictors.</p>
+<p>Therefore, despite its lower R-squared value, Model 1 is preferred over Model 2 due to its more reasonable performance metrics and avoidance of overfitting. It’s crucial to strike a balance between model complexity and performance to ensure generalizability to unseen data.</p>
+</section>
+</section>
+</section>
+<section id="results-discussion-1" class="level1">
+<h1>Results discussion</h1>
+<section id="results-description-and-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="results-description-and-analysis">Results Description and Analysis</h2>
+<section id="research-question" class="level3">
+<h3 class="anchored" data-anchor-id="research-question">Research Question</h3>
+<p>The research question addressed by the regression analysis is, <strong>“Prediction of what determines the laptop prices”</strong></p>
+</section>
+<section id="model-specification" class="level3">
+<h3 class="anchored" data-anchor-id="model-specification">Model Specification</h3>
+<p>We employed Ordinary Least Squares (OLS) regression to investigate the relationship between various laptop features and their prices. The model was specified using the following formula:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="model-performance" class="level2">
+<h2 class="anchored" data-anchor-id="model-performance">Model Performance</h2>
+<p>The OLS regression results indicate that the model explains approximately 74.6% of the variance in laptop prices, as indicated by the R-squared value of 0.746. This suggests that the selected independent variables collectively have a moderate level of explanatory power in predicting laptop prices.</p>
+<div id="fig-coefficients" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coefficients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../visualisations/Graph8.png" class="img-fluid figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coefficients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Coefficients of Independent Variables
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="coefficients-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="coefficients-interpretation">Coefficients Interpretation</h2>
+<ul>
+<li><p><strong>Intercept</strong>: The intercept term represents the expected value of the dependent variable (<code>Price</code>) when all independent variables are held constant at zero. In this case, it is -2406.9394, indicating the base price of laptops when all other features are absent or zero.</p></li>
+<li><p><strong>is_touch_screen</strong>: The coefficient for the binary variable <code>is_touch_screen</code> is 6.2640. However, its p-value of 0.906 suggests that this variable is not statistically significant in predicting laptop prices at the conventional significance level of 0.05.</p></li>
+<li><p><strong>Rating</strong>: The coefficient for the <code>Rating</code> variable is 13.6645, indicating that a one-unit increase in the laptop’s rating is associated with an increase in price by $13.6645.</p></li>
+<li><p><strong>num_cores</strong>: The coefficient for the <code>num_cores</code> variable is 76.4062, indicating that a one-unit increase in the number of cores is associated with an increase in price by $76.4062.</p></li>
+<li><p><strong>num_threads</strong>: The coefficient for the <code>num_threads</code> variable is -30.0025, indicating that a one-unit increase in the number of threads is associated with a decrease in price by $30.0025.</p></li>
+<li><p><strong>ram_memory</strong>: The coefficient for the <code>ram_memory</code> variable is 13.4003, indicating that a one-unit increase in RAM memory is associated with an increase in price by $13.4003.</p></li>
+<li><p><strong>primary_storage_capacity</strong>: The coefficient for the <code>primary_storage_capacity</code> variable is 0.5079, indicating that a one-unit increase in primary storage capacity is associated with an increase in price by $0.5079.</p></li>
+<li><p><strong>secondary_storage_capacity</strong>: The coefficient for the <code>secondary_storage_capacity</code> variable is -0.6392, but its p-value of 0.190 suggests that this variable is not statistically significant in predicting laptop prices at the conventional significance level of 0.05.</p></li>
+<li><p><strong>display_size</strong>: The coefficient for the <code>display_size</code> variable is 31.1784, but its p-value of 0.059 suggests that this variable is marginally significant in predicting laptop prices.</p></li>
+<li><p><strong>resolution_width</strong>: The coefficient for the <code>resolution_width</code> variable is 0.3118, indicating that a one-unit increase in the display resolution width is associated with an increase in price by $0.3118.</p></li>
+<li><p><strong>resolution_height</strong>: The coefficient for the <code>resolution_height</code></p></li>
+</ul>
+</section>
+<section id="model-fit-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="model-fit-statistics">Model Fit Statistics</h2>
+<ul>
+<li><p><strong>F-statistic</strong>: The F-statistic tests the overall significance of the regression model. With a value of 200.6 and a p-value of approximately 1.39e-195, the F-statistic suggests that the model is statistically significant, indicating that at least one of the independent variables significantly predicts laptop prices.</p></li>
+<li><p><strong>Adjusted R-squared</strong>: The adjusted R-squared value of 0.743 accounts for the number of predictors in the model and provides a more accurate estimate of the proportion of variance explained by the independent variables.</p></li>
+</ul>
+</section>
+<section id="conclusion-1" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion-1">Conclusion</h2>
+<p>The regression analysis reveals that several laptop features, including rating, number of cores, number of threads, RAM memory, primary storage capacity, and display resolution, significantly influence laptop prices. However, the presence of multicollinearity or omitted variable bias cannot be ruled out, and further diagnostics may be required to assess model assumptions and validity thoroughly.</p>
+</section>
+</section>
+<section id="impacts" class="level1">
+<h1>Impacts</h1>
+<p>Given the findings of this research, the impact exists in many aspects. Firstly, by the model provided by this research, the price of a laptop can be predicted by some basic information about it. This can be helpful to customers as they can understand better how much the laptop they intended to buy is actually worth. They can see which features contribute to the price the most on each laptop so customers know what they are paying for. A wiser decision can be made if customers could have access to that information. Beyond that, laptop companies as well can use this information while they are setting prices for their laptop products to maximize the market. A successful price-setting “will entice customers to buy, but that isn’t so low that you’re not making a profit” (Gillen, 2023). The model we provide shows the prediction of the common price of the product based on the features which is critical in the price-making process. In addition, Insights from our predictive model can guide product design by highlighting which features contribute most significantly to perceived value and price. It could help laptop companies make design decisions in the future to design more profitable products. The result also could help in identifying the trend in the current laptop market. Such as which feature is more popular this year. And this is probably the feature which customers would pay more money on. To conclude, the model we build is practically useful from both ends of customers and companies.</p>
+</section>
+<section id="further-studies" class="level1">
+<h1>Further studies</h1>
+<p>Our study showed some promising results that can help both consumers and producers of the laptop market but there is still room for improvement. Four major studies can be conducted based on our results. Firstly, we could try to answer the question: “How has the importance of specific features in determining laptop prices changed over time?” This analysis could reveal shifting technology trends and consumer preferences, providing foresight into future market developments. According to Segan, “Computer and printer prices plummeted throughout the ’80s and ’90s, and PC storage continues to be cheaper and faster every year” (Segan, 2022). This means the price of laptops may vary every year and its relation to the feature may change. Secondly, we could look into region market differences which explore feature importance differences in regions. Exploring this could uncover opportunities for localized marketing strategies or product customization to meet regional demands. Thirdly, we could focus on the impact of brand reputation by trying to answer the question: “How does a brand’s reputation or perceived quality affect laptop prices?” Further research could quantify the brand effect and its interaction with product features in price setting. Last but not least we could implement different models as we only tried the KNN model here. We could try more advanced predictive models in machine learning algorithms in the future to increase our accuracy and overall performance.</p>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>Afzal, M. (2023, December 9). 15 best selling laptops in 2023. Yahoo! Finance. https://finance.yahoo.com/news/15-best-selling-laptops-2023-182017276.html?guccounter=1&amp;guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&amp;guce_referrer_sig=AQAAADuqlSTbXMvnb1xhpvBsZ7W54qxGIf1JJ4TNTahMyewE-L9ZpqDiXgQVu1KGLwbA05RzhoL7kfU6WfRpfZUs3z2OYltBznbqwsn6jgoy6LUGJa9Z6TaugOmFPwr9ml_UlcH3tKS7xiJ1O_kLvAqFV7rcsdwOHQy0xv_jg4QACxHQ</p>
+<p>Kumar, A. (2024, February 10). Laptop dataset (2024). Kaggle. https://www.kaggle.com/datasets/aniket1505/laptop-dataset-2023</p>
+<p>Gillen, C. (2023, July 12). 15 pricing strategies + how to set yours. Zapier. https://zapier.com/blog/pricing-strategy</p>
+<p>Segan, S. (2022, June 15). 1982 vs.&nbsp;2022: Has technology really become more affordable?. PCMAG. https://www.pcmag.com/news/1982-vs-2022-has-technology-really-become-more-affordable</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
