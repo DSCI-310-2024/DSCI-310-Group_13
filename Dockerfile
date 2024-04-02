@@ -34,6 +34,7 @@ RUN conda install altair_saver==0.5.0 \
     requests \
     selenium \
     pillow \
+    pytest==
     ipython==8.0.1 \
     jupyter \
     pyyaml
