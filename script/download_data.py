@@ -1,5 +1,4 @@
 import click
-from src.download_data import copy_file
 
 @click.command()
 @click.argument('input_path')
