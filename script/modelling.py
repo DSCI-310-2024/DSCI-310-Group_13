@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from model import split_data, train_model, evaluate_model, plot_metrics
 
 import click
+from sklearn.linear_model import LogisticRegression
 
 @click.command()
 @click.argument('input_file')
@@ -19,18 +20,16 @@ def modelling(input_file, figure_prefix):
     # Read the data
     df = pd.read_csv(input_file)
 
-    # Define the target variable
     target = 'Price'
-    # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = split_data(df, target, test_size=0.2, random_state=42)
 
-    # Train the model
-    trained_model = train_model(X_train, y_train)
+    model = LogisticRegression()
+    trained_model = train_model(model, X_train, y_train)
 
-    # Evaluate the model
+    # Evaluate model
     metrics = evaluate_model(trained_model, X_test, y_test)
     
-    # Plot and save the evaluation metrics
+    # Plot and save metrics
     metrics_filename = f"{figure_prefix}_metrics.png"
     plot_metrics(metrics, metrics_filename, results_dir)
 

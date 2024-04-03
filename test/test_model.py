@@ -1,11 +1,11 @@
 import pandas as pd
 import numpy as np
+from sklearn.linear_model import LogisticRegression
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 from model import split_data, train_model, evaluate_model, plot_metrics
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression
 
 # Sample data generation, now includes a non-numeric column that should be ignored/removed in processing
 def generate_sample_data(num_rows=100, include_non_numeric=False):
@@ -31,15 +31,16 @@ def test_split_data():
 def test_train_model():
     df = generate_sample_data()
     X_train, X_test, y_train, y_test = split_data(df, 'target')
-    trained_model = train_model(X_train, y_train)
+    model = LogisticRegression()
+    trained_model = train_model(model, X_train, y_train)
     assert trained_model is not None
 
 # Test evaluate_model function
 def test_evaluate_model():
     df = generate_sample_data()
     X_train, X_test, y_train, y_test = split_data(df, 'target')
-    trained_model = train_model(X_train, y_train)
-    metrics = evaluate_model(trained_model, X_test, y_test)
+    model = LogisticRegression().fit(X_train, y_train)
+    metrics = evaluate_model(model, X_test, y_test)
     assert 'accuracy' in metrics
     assert 'precision' in metrics
     assert 'recall' in metrics

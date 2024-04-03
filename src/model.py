@@ -3,7 +3,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression
 
 def preprocess_data(df):
     """
@@ -38,18 +37,18 @@ def split_data(df, target, test_size=0.2, random_state=42):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
     return X_train, X_test, y_train, y_test
 
-def train_model(X_train, y_train):
+def train_model(model, X_train, y_train):
     """
-    Trains a LogisticRegression model on the training set with an increased max_iter parameter.
+    Trains the given model on the training set.
 
     Args:
+        model: The machine learning model to train.
         X_train: The training input samples.
         y_train: The target values for the training input samples.
 
     Returns:
         The trained model.
     """
-    model = LogisticRegression(max_iter=1000)  # Instantiate LogisticRegression with increased max_iter
     model.fit(X_train, y_train)
     return model
 
