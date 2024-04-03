@@ -2,7 +2,7 @@ import click
 import os
 
 
-def download_data(input_path, output_path):
+def copy_file(input_path, output_path):
     """This function copy a file from the input path to the output path.
 
     Args:
