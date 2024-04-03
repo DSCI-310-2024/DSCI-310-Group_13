@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-def clean_and_save_data(input_file, output_file):
+def clean_and_save_data_f(input_file, output_file):
 
     """
     Reads data from a specified input file, performs data cleaning by removing outliers using the IQR method on numeric columns,
@@ -23,7 +23,7 @@ def clean_and_save_data(input_file, output_file):
         
     Examples:
     ---------
-    >>> train, test = clean_and_save_data('inputFilePath.csv', 'newFilePath') # replace ('inputFilePath', 'newFilePath') with the actual filepath of data and filepath to be written to
+    >>> train, test = clean_and_save_data_f('inputFilePath.csv', 'newFilePath') # replace ('inputFilePath', 'newFilePath') with the actual filepath of data and filepath to be written to
     >>> print(train.head())
     >>> print(test.head())
 

@@ -9,7 +9,7 @@ How to run test: pytest tests/test_data_cleaning.py
 
 # Adjust the path to include the src directory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-from function_data_cleaning import clean_and_save_data
+from function_data_cleaning import clean_and_save_data_f
 
 
 #sample valid/invalid paths
@@ -31,7 +31,7 @@ if not os.path.exists(output_path):
 
 def test_clean_and_save():
     # Run the cleaning and splitting function
-    clean_and_save_data(input_path, output_path)
+    clean_and_save_data_f(input_path, output_path)
     
     # Read the output files back in
     df_train = pd.read_csv(f"{output_path }_train.csv")
@@ -48,7 +48,7 @@ def test_clean_and_save():
 
 
 def test_remove_outliers():
-    clean_and_save_data(input_path, output_path)
+    clean_and_save_data_f(input_path, output_path)
 
     df_train = pd.read_csv(f"{output_path }_train.csv")
     df_test = pd.read_csv(f"{output_path }_test.csv")
@@ -74,7 +74,7 @@ def test_split_proportion():
     os.remove(f"{output_path }_test.csv")
 
 def test_missing_data_handle():
-    clean_and_save_data(input_path, output_path)
+    clean_and_save_data_f(input_path, output_path)
 
     df_train = pd.read_csv(f"{output_path }_train.csv")
     df_test = pd.read_csv(f"{output_path }_test.csv")
