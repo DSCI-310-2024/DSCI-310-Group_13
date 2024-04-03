@@ -1,10 +1,11 @@
 import click
-from src.download_data import copy_file
+from src.download_data import download_data
+
 
 @click.command()
 @click.argument('input_path')
 @click.argument('output_path')
-def copy_file(input_path, output_path):
+def download_data(input_path, output_path):
     """
     This script copies a file from the input path to the output path.
 
@@ -26,4 +27,4 @@ def copy_file(input_path, output_path):
         click.echo(f"Failed to copy the file: {e}")
 
 if __name__ == '__main__':
-    copy_file()
+    download_data()
