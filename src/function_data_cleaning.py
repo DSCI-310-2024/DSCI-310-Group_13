@@ -1,26 +1,36 @@
-import click
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-import sys
-import os
 
-# sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-# from function_data_cleaning import clean_and_save_data
-
-
-
-@click.command()
-@click.argument('input_file')
-@click.argument('output_file')
 def clean_and_save_data(input_file, output_file):
+
     """
-    This script reads data from a specified input file, performs data cleaning by removing outliers using the IQR method on numeric columns,
+    Reads data from a specified input file, performs data cleaning by removing outliers using the IQR method on numeric columns,
     drops duplicate rows, handles missing values by dropping rows with missing data, and saves the cleaned data to a specified output file.
 
-    Arguments:
-    input_file -- Path/filename of the data to be read in.
-    output_file -- Path/filename where the cleaned/processed data will be saved.
+    Parameters:
+    -----------
+    input_path: str
+        Path/filename of the data to be read in.
+
+    output_path: str
+        Path/filename where the cleaned/processed data will be saved.
+
+    Returns:
+    --------
+    tuple of DataFrame
+        A tuple containing one training dataframe and one testing dataframe.
+        
+    Examples:
+    ---------
+    >>> train, test = clean_and_save_data('inputFilePath.csv', 'newFilePath') # replace ('inputFilePath', 'newFilePath') with the actual filepath of data and filepath to be written to
+    >>> print(train.head())
+    >>> print(test.head())
+
+    Notes:
+    ------
+    This function requires pandas library
+
     """
     # Read the data
     df = pd.read_csv(input_file)
@@ -51,7 +61,7 @@ def clean_and_save_data(input_file, output_file):
     df_train.to_csv(train_output_file, index=False)
     df_test.to_csv(test_output_file, index=False)
 
-    click.echo(f"Data cleaned and saved to {output_file}")
+    print(f"Data cleaned and saved to {output_file}_train.csv and {output_file}_test.csv")
 
-if __name__ == '__main__':
-    clean_and_save_data()
+    # Return the training and test dataframes
+    return df_train, df_test
