@@ -58,7 +58,7 @@ def test_remove_outliers():
     os.remove(f"{output_path }_test.csv")
 
 def test_split_proportion():
-    clean_and_save_data(input_path, output_path)
+    clean_and_save_data_f(input_path, output_path)
 
     df_train = pd.read_csv(f"{output_path }_train.csv")
     df_test = pd.read_csv(f"{output_path }_test.csv")
