@@ -578,11 +578,3 @@ Our study showed some promising results that can help both consumers and produce
 
 
 ## References
-
-Afzal, M. (2023, December 9). 15 best selling laptops in 2023. Yahoo! Finance. https://finance.yahoo.com/news/15-best-selling-laptops-2023-182017276.html?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAADuqlSTbXMvnb1xhpvBsZ7W54qxGIf1JJ4TNTahMyewE-L9ZpqDiXgQVu1KGLwbA05RzhoL7kfU6WfRpfZUs3z2OYltBznbqwsn6jgoy6LUGJa9Z6TaugOmFPwr9ml_UlcH3tKS7xiJ1O_kLvAqFV7rcsdwOHQy0xv_jg4QACxHQ
-
-Kumar, A. (2024, February 10). Laptop dataset (2024). Kaggle. https://www.kaggle.com/datasets/aniket1505/laptop-dataset-2023 
-
-Gillen, C. (2023, July 12). 15 pricing strategies + how to set yours. Zapier. https://zapier.com/blog/pricing-strategy 
-
-Segan, S. (2022, June 15). 1982 vs. 2022: Has technology really become more affordable?. PCMAG. https://www.pcmag.com/news/1982-vs-2022-has-technology-really-become-more-affordable 
