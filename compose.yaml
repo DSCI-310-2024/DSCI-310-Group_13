@@ -5,8 +5,4 @@ services:
       - "8888:8888"
     volumes:
       - .:/home/mounted_volume
-    deploy:
-      resources:
-        limits:
-          memory: 5G
     platform: linux/amd64
