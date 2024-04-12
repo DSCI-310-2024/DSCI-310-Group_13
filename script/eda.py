@@ -1,3 +1,20 @@
+"""
+This script performs exploratory data analysis (EDA) on a given dataset.
+It generates various visualizations that highlight different aspects of the data,
+such as distribution of brands, price distribution, and correlations among various numerical features.
+
+Usage:
+    Run the script with required arguments specifying the input file and a prefix for output figure files.
+    Example:
+        python eda.py --input-file='path/to/dataset.csv' --figure-prefix='output_figure'
+
+Arguments:
+    input_file: The path to the CSV file containing the dataset to analyze.
+    figure_prefix: A prefix for naming output visualization files, which will be saved in the 'Visualisations' directory.
+
+The script outputs several plots into the 'Visualisations' directory, providing insights into the dataset's composition.
+"""
+
 import click
 import os
 import altair as alt
@@ -13,7 +30,15 @@ from pylaptoppred import save_plot
 @click.command()
 @click.argument('input_file')
 @click.argument('figure_prefix')
+
 def eda(input_file, figure_prefix):
+    """
+    Executes data analysis on the specified file and generates visualizations.
+    
+    Parameters:
+        input_file (str): Path to the input CSV file.
+        figure_prefix (str): Prefix for the output visualization files.
+    """
     # Ensure the Visualizations directory exists
     visualisations_dir = 'Visualisations'  # Directly in the project root
     if not os.path.exists(visualisations_dir):
