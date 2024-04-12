@@ -1,3 +1,18 @@
+"""
+This script is designed to perform data modeling on a given dataset to predict laptop prices. It includes steps to split the data, train a regression model, evaluate its performance, and visualize the evaluation metrics.
+
+Usage:
+    Run the script with required arguments specifying the input file and a prefix for output files.
+    Example:
+        python modelling.py --input-file='path/to/dataset.csv' --figure-prefix='output_metrics'
+
+Arguments:
+    input_file: The path to the CSV file containing the dataset to model.
+    figure_prefix: A prefix for naming output metric files, which will be saved in the 'results' directory.
+
+The script outputs evaluation metrics and saves a plot of these metrics in the 'results' directory.
+"""
+
 import os
 import sys
 
@@ -11,7 +26,16 @@ import click
 @click.command()
 @click.argument('input_file')
 @click.argument('figure_prefix')
+
 def modelling(input_file, figure_prefix):
+    """
+    Executes the modeling process on the specified dataset and outputs evaluation metrics and plots.
+    
+    Parameters:
+        input_file (str): Path to the input CSV file.
+        figure_prefix (str): Prefix used to name the output metric plot file.
+    """
+    # Ensure the results directory exists
     results_dir = 'results'
     if not os.path.exists(results_dir):
         os.makedirs(results_dir)
