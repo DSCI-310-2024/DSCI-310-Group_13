@@ -1,10 +1,10 @@
 import os
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from pylaptoppred.model import split_data, train_model, evaluate_model, plot_metrics
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from model import split_data, train_model, evaluate_model, plot_metrics
 
 import click
 

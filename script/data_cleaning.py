@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-from function_data_cleaning import clean_and_save_data_f
+
+from pylaptoppred import function_data_cleaning
 
 
 
@@ -23,7 +23,7 @@ def clean_and_save_data(input_file, output_file):
     output_file -- Path/filename where the cleaned/processed data will be saved.
     """
     # Call the function from function.py
-    df_train, df_test = clean_and_save_data_f(input_file, output_file)
+    df_train, df_test = function_data_cleaning.clean_and_save_data_f(input_file, output_file)
     
     click.echo(f"Data cleaned and saved to {output_file}_train.csv and {output_file}_test.csv")
 

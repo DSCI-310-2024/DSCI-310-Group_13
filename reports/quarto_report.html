@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.4.545">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -280,7 +280,6 @@ Table&nbsp;1: Descriptive statistics of laptop prices in USD.
 <div aria-describedby="tbl-laptop-prices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">
 <div>
-<div>
 
 
 <table class="dataframe do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -338,7 +337,6 @@ Table&nbsp;1: Descriptive statistics of laptop prices in USD.
 </div>
 </div>
 </div>
-</div>
 </figure>
 </div>
 </div>
@@ -366,16 +364,7 @@ Table&nbsp;2: Descriptive statistics of laptop specifications and prices in USD.
 </figcaption>
 <div aria-describedby="tbl-laptop-specs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-stdout">
-<pre><code>|    | Statistic   |    Value |
-|---:|:------------|---------:|
-|  0 | count       |    991   |
-|  1 | mean        |  77266.5 |
-|  2 | std         |  57384.9 |
-|  3 | min         |   9800   |
-|  4 | 25%         |  43595   |
-|  5 | 50%         |  61900   |
-|  6 | 75%         |  89245   |
-|  7 | max         | 454490   |</code></pre>
+
 </div>
 </div>
 </figure>
@@ -498,7 +487,7 @@ Figure&nbsp;7: Correlation matrix
 <p>We employ a randomized approach to create these subsets, aiming for a 70:30 split between training and testing data. This means 70% of our data will be used to train the model, allowing it to learn and adapt to the patterns within our dataset. The remaining 30% serves as the test set, which will be used to evaluate the model’s predictive accuracy and generalizability to new data.</p>
 <p>To ensure the reproducibility of our results and maintain consistency in model evaluation, we set a fixed seed for the random number generator. This approach guarantees that the selection of data for the training and testing sets is both random and unbiased, providing a solid foundation for our subsequent analysis.</p>
 <p>In our ongoing analysis, we turn our attention to understanding the distribution of categorical variables within our training dataset. A key step in this process involves calculating the frequency ratio for each feature. The frequency ratio is defined as the count of the most frequent value divided by the count of the second most frequent value for each variable. This metric provides insight into the balance or imbalance of categorical data, highlighting variables that may have a dominant category. Such insights are invaluable for feature selection and preprocessing steps, as they can influence the model’s ability to learn from the data effectively.</p>
-<div id="c2daad3c" class="cell" data-execution_count="5">
+<div id="cc754b64" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>|                            |   Frequency Ratio |
 |:---------------------------|------------------:|
@@ -536,7 +525,7 @@ Figure&nbsp;7: Correlation matrix
 <li><p><strong>Display_size, resolution_width, and resolution_height:</strong> Moderate ratios suggest some variability, which could be informative for the model, indicating that these features have multiple common values but with a clear preference for one.</p></li>
 </ul>
 <p>Interpreting these ratios helps us understand the variability and balance within our dataset, guiding us in feature selection and preprocessing. Features with extremely high ratios may require careful consideration, as their predictive power might be compromised by the lack of diversity in their values.</p>
-<div id="a0b5c82e" class="cell" data-execution_count="6">
+<div id="929a4ce4" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>                                Variance
 index                       8.354801e+04
@@ -571,7 +560,7 @@ resolution_height           6.681680e+04</code></pre>
 </section>
 <section id="ols-with-only-numeric-variables" class="level2">
 <h2 class="anchored" data-anchor-id="ols-with-only-numeric-variables">OLS with only numeric variables</h2>
-<div id="dcf7a40a" class="cell" data-execution_count="7">
+<div id="e8990f08" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -579,7 +568,7 @@ Dep. Variable:                  Price   R-squared:                       0.746
 Model:                            OLS   Adj. R-squared:                  0.743
 Method:                 Least Squares   F-statistic:                     200.6
 Date:                Thu, 11 Apr 2024   Prob (F-statistic):          1.36e-195
-Time:                        23:49:09   Log-Likelihood:                -8094.5
+Time:                        21:25:12   Log-Likelihood:                -8094.5
 No. Observations:                 693   AIC:                         1.621e+04
 Df Residuals:                     682   BIC:                         1.626e+04
 Df Model:                          10                                         
@@ -657,7 +646,7 @@ strong multicollinearity or other numerical problems.</code></pre>
 <h2 class="anchored" data-anchor-id="model-choice">Model choice</h2>
 <section id="model-1-with-only-numerical-variables" class="level3">
 <h3 class="anchored" data-anchor-id="model-1-with-only-numerical-variables">Model 1 with only numerical variables</h3>
-<div id="434b2a08" class="cell" data-execution_count="8">
+<div id="f2cd42e6" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -665,7 +654,7 @@ Dep. Variable:                  Price   R-squared:                       0.746
 Model:                            OLS   Adj. R-squared:                  0.743
 Method:                 Least Squares   F-statistic:                     200.6
 Date:                Thu, 11 Apr 2024   Prob (F-statistic):          1.36e-195
-Time:                        23:49:09   Log-Likelihood:                -8094.5
+Time:                        21:25:12   Log-Likelihood:                -8094.5
 No. Observations:                 693   AIC:                         1.621e+04
 Df Residuals:                     682   BIC:                         1.626e+04
 Df Model:                          10                                         
@@ -721,7 +710,7 @@ strong multicollinearity or other numerical problems.</code></pre>
 <section id="model-specification" class="level3">
 <h3 class="anchored" data-anchor-id="model-specification">Model Specification</h3>
 <p>We employed Ordinary Least Squares (OLS) regression to investigate the relationship between various laptop features and their prices. The model was specified using the following formula:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'Price ~ Rating + num_cores + num_threads + ram_memory + primary_storage_capacity + secondary_storage_capacity + is_touch_screen + display_size + resolution_width + resolution_height'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="model-performance" class="level2">
@@ -859,24 +848,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -911,11 +882,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

@@ -31,7 +31,11 @@ RUN conda install python==3.11 \
     ipython==8.20.0 \
     make==4.2.1 \
     vl-convert-python==1.3.0 \
-    pytest==8.1.1
+    pytest==8.1.1 \
+    yaml==0.2.5 \ 
+    jupyter==1.0.0
+
+RUN pip3 install pylaptoppred==0.1.0
 
 
 

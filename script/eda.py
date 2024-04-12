@@ -8,8 +8,7 @@ import seaborn as sns
 # import altair_saver
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.save_plot import save_plot
+from pylaptoppred import save_plot
 
 @click.command()
 @click.argument('input_file')
@@ -50,7 +49,7 @@ def eda(input_file, figure_prefix):
     plt_obj = plt.gcf()
 
     # CHANGE 1
-    save_plot(plt_obj, f'{figure_prefix}_brand_distribution.png', output_path)
+    save_plot.save_plot(plt_obj, f'{figure_prefix}_brand_distribution.png', output_path)
     plt.close()
     print("success!\n")
 
@@ -73,7 +72,7 @@ def eda(input_file, figure_prefix):
     )
     output_path = os.path.join(visualisations_dir)
 
-    save_plot(chart, f'{figure_prefix}_price_distribution.png', output_path)
+    save_plot.save_plot(chart, f'{figure_prefix}_price_distribution.png', output_path)
     print("success! \n")
 
     # chart.save(output_path,scale_factor=2.0)
@@ -87,7 +86,7 @@ def eda(input_file, figure_prefix):
 
     plt_obj = plt.gcf()
 
-    save_plot(plt_obj, f'{figure_prefix}_Barplot_Price_processor_brand.png', output_path)
+    save_plot.save_plot(plt_obj, f'{figure_prefix}_Barplot_Price_processor_brand.png', output_path)
     plt.close()
     print("success! \n")
 
@@ -104,7 +103,7 @@ def eda(input_file, figure_prefix):
 
     plt_obj = plt.gcf()
 
-    save_plot(plt_obj, f'{figure_prefix}_processor_distribution.png', output_path)
+    save_plot.save_plot(plt_obj, f'{figure_prefix}_processor_distribution.png', output_path)
     plt.close()
     print("success! \n")
 
@@ -138,7 +137,7 @@ def eda(input_file, figure_prefix):
     output_path = os.path.join(visualisations_dir)
 
 
-    save_plot(chart_grid, f'{figure_prefix}_grid_1.png', output_path)
+    save_plot.save_plot(chart_grid, f'{figure_prefix}_grid_1.png', output_path)
     print("success! \n")
 
     #sixth plot
@@ -200,7 +199,7 @@ def eda(input_file, figure_prefix):
     )
     output_path = os.path.join(visualisations_dir)
 
-    save_plot(chart_grid,  f'{figure_prefix}_grid_2.png', output_path)
+    save_plot.save_plot(chart_grid,  f'{figure_prefix}_grid_2.png', output_path)
     print("success! \n")
 
 

@@ -2,8 +2,8 @@ import click
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.copy_file import copy_file
+
+from pylaptoppred import copy_file
 
 
 @click.command()
@@ -17,7 +17,7 @@ def download_data(input_path, output_path):
     input_path -- Path of the file to be read.
     output_path -- Path where the file will be saved.
     """
-    copy_file(input_path, output_path)
+    copy_file.copy_file(input_path, output_path)
 
 if __name__ == '__main__':
     download_data()

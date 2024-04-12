@@ -19,62 +19,65 @@ To successfully run our data analysis you should follow the following steps:
 
 6. **Running the Analysis**: Navigate to the project directory and execute the Jupyter Notebooks or Python scripts to perform our analysis pipeline.
 
-5. **Dependency Installation**: To set up the project environment, install dependencies listed in `Dockerfile`. To do this, execute the following command in your terminal once working in the project directory: 
+5. **Dependency Installation**: To set up the project environment, install dependencies listed in `Dockerfile`. 2. Open the terminal and navigate to the DSCI-310_group-10_crime-prediction directory.
+
+Note: Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop/) is installed and running in the background
+
+Run `docker-compose build`, this will create a docker image.
 
 ```console
-foo@bar:~$ docker build --tag sample_name .
+foo@bar:~$ docker-compose build
 ```
-and
+
+Run `docker-compose run environment` 
 
 ```console
-foo@bar:~$ docker run --rm -it -v /$(pwd):/home/my_mounted_volume sample_name
+foo@bar:~$ docker-compose run environment
 ```
-This command will ensure you mount the docker container to the directory you are within in order for code to be ran.
 
-Note: Ensure that you change sample_name to a desired name and ensure that when you run the container you include -rm in order for container to be ephemeral. 
+Necessary files found within the `home/jovyan/work` directory.
+
+To shut down and exit the container use `Ctrl + c`.
 
 ## List of Dependencies
 
 The project utilizes the following dependencies and their versions as listed in the Dockerfile.
 
 ```yaml
-FROM quay.io/jupyter/scipy-notebook:2024-02-24
+FROM continuumio/anaconda3:2024.02-1
 
 RUN conda config --add channels conda-forge && \
     conda config --add channels anaconda && \
     conda config --add channels defaults
 
-RUN conda install python==3.11
+USER root
 
-RUN conda install statsmodels==0.14.1
+RUN apt update -y && \
+    apt install sudo -y && \
+    apt install gdebi -y && \
+    sudo dpkg --add-architecture arm64 && \
+    curl -o quarto-1.4.551-linux-arm64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-arm64.deb && \
+    gdebi --non-interactive quarto-1.4.551-linux-arm64.deb && \
+    apt install -y perl && \
+    wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 
-RUN conda install seaborn==0.13.2
-
-RUN conda install pandas=2.2.0
-
-RUN conda install numpy=1.26.4
-
-RUN conda install altair=5.2.0
-
-RUN conda install imbalanced-learn=0.12.0
-
-RUN conda install matplotlib=3.8.3
-
-RUN conda install scikit-learn=1.4.1.post1
-
-RUN conda install statsmodels==0.14.1
-
-RUN conda install tabulate==0.9.0
-
-RUN conda install click==8.1.7
-
-RUN conda install pillow==10.2.0
-
-RUN conda install ipython==8.20.0
-
-RUN conda install make==4.2.1
-
-RUN conda install vl-convert-python==1.3.0
+RUN conda install python==3.11 \
+    statsmodels==0.14.1 \
+    seaborn==0.13.2 \
+    pandas=2.2.0 \
+    numpy=1.26.4 \
+    altair=5.2.0 \
+    imbalanced-learn=0.12.0 \
+    matplotlib=3.8.3 \
+    scikit-learn=1.4.1.post1 \
+    statsmodels==0.14.1 \
+    tabulate==0.9.0 \
+    click==8.1.7 \
+    pillow==10.2.0 \
+    ipython==8.20.0 \
+    make==4.2.1 \
+    vl-convert-python==1.3.0 \
+    pytest==8.1.1
 
 ```
 

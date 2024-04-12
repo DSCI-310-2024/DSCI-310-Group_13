@@ -22,6 +22,6 @@ dependencies:
   - vl-convert-python==1.3.0 
   - pytest==8.1.1 
   - pip:
-    - 
+    - lapttoppred==0.1.0
 
     

@@ -49,7 +49,7 @@ reports/quarto_report.html: reports/quarto_report.qmd
 
 # render quarto report in PDF
 reports/quarto_report.pdf: reports/quarto_report.qmd
-	quarto render reports/quarto_report.qmd --to pdf
+	quarto render reports/quarto_report.qmd --to pdf`
 
 
 # 'make clean' will remove targeted files in clean:
