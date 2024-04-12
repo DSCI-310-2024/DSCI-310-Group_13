@@ -4,8 +4,8 @@ import os
 import pytest
 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.save_plot import save_plot
+
+from pylaptoppred import save_plot
 import altair as alt
 import pandas as pd
 import seaborn as sns
@@ -37,7 +37,7 @@ def test_save_plot():
     dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 
     plt_obj = plt.gcf()
-    save_plot(plt_obj, 'test_plt.png', dir)
+    save_plot.save_plot(plt_obj, 'test_plt.png', dir)
 
     # ALTAIR
 
@@ -58,7 +58,7 @@ def test_save_plot():
         height=400
     )
 
-    save_plot(chart, 'test_altair.png', dir)
+    save_plot.save_plot(chart, 'test_altair.png', dir)
 
 
 
@@ -69,7 +69,7 @@ def test_save_plot_empty_filename():
   directory = tmpdir
 
   with pytest.raises(ValueError):
-    save_plot(mock_plot, "", directory)
+    save_plot.save_plot(mock_plot, "", directory)
 
 def test_save_plot_nonexistent_directory():
   """Tests the save_plot function with a non-existent directory."""
@@ -78,7 +78,7 @@ def test_save_plot_nonexistent_directory():
   directory = "nonexistent_dir"
 
   with pytest.raises(OSError):
-    save_plot(mock_plot, filename, directory)
+    save_plot.save_plot(mock_plot, filename, directory)
 
 test_save_plot()
 test_save_plot_empty_filename()
