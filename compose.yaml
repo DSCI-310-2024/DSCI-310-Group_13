@@ -1,8 +1,7 @@
 services:
-  analysis-env:
-    image: daniel3457/group_13-laptop-market-price-analysis
+  environment:
+    build: .
     ports:
-      - "8888:8888"
+      - 8888:8888
     volumes:
-      - .:/home/mounted_volume
-    platform: linux/amd64
+      - .:/home/jovyan/work

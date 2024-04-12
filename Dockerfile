@@ -15,22 +15,23 @@ RUN apt update -y && \
     apt install -y perl && \
     wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 
-RUN conda install python==3.11 && \
-    conda install statsmodels==0.14.1 && \
-    conda install seaborn==0.13.2 && \
-    conda install pandas=2.2.0 && \
-    conda install numpy=1.26.4 && \
-    conda install altair=5.2.0 && \
-    conda install imbalanced-learn=0.12.0 && \
-    conda install matplotlib=3.8.3 && \
-    conda install scikit-learn=1.4.1.post1 && \
-    conda install statsmodels==0.14.1 && \
-    conda install tabulate==0.9.0 && \
-    conda install click==8.1.7 && \
-    conda install pillow==10.2.0 && \
-    conda install ipython==8.20.0 && \
-    conda install make==4.2.1 && \
-    conda install vl-convert-python==1.3.0
+RUN conda install python==3.11 \
+    statsmodels==0.14.1 \
+    seaborn==0.13.2 \
+    pandas=2.2.0 \
+    numpy=1.26.4 \
+    altair=5.2.0 \
+    imbalanced-learn=0.12.0 \
+    matplotlib=3.8.3 \
+    scikit-learn=1.4.1.post1 \
+    statsmodels==0.14.1 \
+    tabulate==0.9.0 \
+    click==8.1.7 \
+    pillow==10.2.0 \
+    ipython==8.20.0 \
+    make==4.2.1 \
+    vl-convert-python==1.3.0 \
+    pytest==8.1.1
 
 
 
